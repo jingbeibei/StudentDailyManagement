@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#ffffff"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:src="@mipmap/icon_gps"
+            android:layout_marginTop="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+        <RelativeLayout
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/login_and_register"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:id="@+id/id_login_text"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="学号登录"
+                android:textColor="@color/colorWhite"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@drawable/login_and_register"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:id="@+id/id_register_text"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="注册"
+                android:textColor="@color/colorWhite"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="其他登录方式"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:textColor="@color/colorTextPrompt"/>
+        <!--<LinearLayout-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginLeft="25dp"-->
+            <!--android:layout_marginRight="25dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:visibility="invisible"-->
+            <!--android:orientation="horizontal">-->
+            <!--<RelativeLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/id_login_1_text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:text="微信登录"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textColor="@color/colorTextMain"/>-->
+                <!--<ImageView-->
+                    <!--android:layout_toRightOf="@id/id_login_1_text"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_width="10dp"-->
+                    <!--android:layout_height="10dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:src="@drawable/icon_arrow_black_right"/>-->
+
+            <!--</RelativeLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/id_login_2_text"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:text="微信登录"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textColor="@color/colorTextMain"/>-->
+                <!--<ImageView-->
+                    <!--android:layout_toRightOf="@id/id_login_2_text"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_width="10dp"-->
+                    <!--android:layout_height="10dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:src="@drawable/icon_arrow_black_right"/>-->
+
+            <!--</RelativeLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1">-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/id_login_3_image"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_width="10dp"-->
+                    <!--android:layout_height="10dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:src="@drawable/icon_arrow_black_right"/>-->
+                <!--<TextView-->
+                    <!--android:layout_toLeftOf="@id/id_login_3_image"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:text="微信登录"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textColor="@color/colorTextMain"/>-->
+
+
+            <!--</RelativeLayout>-->
+
+        <!--</LinearLayout>-->
+    </LinearLayout>
+    </RelativeLayout>

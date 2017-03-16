@@ -60,15 +60,61 @@
                 android:textColor="#000000"
                 android:textSize="20sp"/>
             <EditText
-                android:id="@+id/id_phone_edit"
+                android:id="@+id/id_account_edit"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="输入手机"
+                android:hint="输入学号/职工号"
                 android:inputType="phone"
                 android:textColorHint="#cccccc"
                 android:textSize="16sp"
                 android:background="@null"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cac9ce"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:paddingLeft="10dp"
+                android:layout_width="36dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/icon_black_phone"/>
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="+86"
+                android:visibility="gone"
+                android:textColor="#000000"
+                android:textSize="20sp"/>
+            <EditText
+                android:id="@+id/id_realname_edit"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="真实姓名"
+                android:inputType="phone"
+                android:textColorHint="#cccccc"
+                android:textSize="16sp"
+                android:background="@null"/>
+            <AutoCompleteTextView
+                android:id="@+id/id_class_auto_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="请输入班级"
+                android:textSize="@dimen/text_size"
+                android:gravity="center"
+                android:completionThreshold="4"
+                />
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
@@ -90,6 +136,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="输入密码"
+                android:inputType="textPassword"
+                android:textColorHint="#cccccc"
+                android:textSize="16sp"
+                android:background="@null"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cac9ce"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:paddingLeft="10dp"
+                android:layout_width="36dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/icon_black_phone"/>
+            <EditText
+                android:id="@+id/id_phone_edit"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="输入手机号"
                 android:inputType="textPassword"
                 android:textColorHint="#cccccc"
                 android:textSize="16sp"
@@ -131,6 +202,45 @@
                 android:layout_alignParentRight="true"
                 />
         </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cac9ce"/>
+        <LinearLayout
+            android:id="@+id/id_counselor_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="是否是辅导员？"
+                android:textSize="@dimen/text_size"
+                android:gravity="center"
+                />
+            <RadioGroup
+                android:id="@+id/id_iscounselor_radiogroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <RadioButton
+                    android:id="@+id/id_iscounselor_false_radiobtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="否"
+                    android:checked="true"
+                    />
+                <RadioButton
+                    android:id="@+id/id_iscounselor_true_radiobtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="是"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    />
+            </RadioGroup>
+        </LinearLayout>
     </LinearLayout>
 
     <Button

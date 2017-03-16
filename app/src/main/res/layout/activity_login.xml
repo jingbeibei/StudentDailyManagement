@@ -59,7 +59,7 @@
                 android:textColor="#000000"
                 android:textSize="20sp"/>
             <EditText
-                android:id="@+id/id_phonel_edit"
+                android:id="@+id/id_account_edit"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -100,7 +100,17 @@
             android:background="#cac9ce"/>
 
     </LinearLayout>
-
+<TextView
+    android:id="@+id/id_register_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="还没有账号？注册"
+    android:textColor="@color/colorPrimary"
+    android:textSize="18sp"
+    android:gravity="right"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_horizontal_margin"
+    />
     <Button
         android:id="@+id/id_login_btn"
         android:layout_marginTop="20dp"

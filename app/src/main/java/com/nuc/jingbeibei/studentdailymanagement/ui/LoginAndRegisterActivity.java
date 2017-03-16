@@ -1,5 +1,6 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,15 +12,19 @@ import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
 import cn.bmob.v3.Bmob;
 
 public class LoginAndRegisterActivity extends AppCompatActivity {
-    private TextView idLoginText;
-    private TextView idRegisterText;
+    private TextView idStudentText;
+    private TextView idTeacherText;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_and_register);
-        idLoginText= (TextView) findViewById(R.id.id_login_text);
-        idRegisterText= (TextView) findViewById(R.id.id_register_text);
+        idStudentText= (TextView) findViewById(R.id.id_student_text);
+        idTeacherText= (TextView) findViewById(R.id.id_teacher_text);
+        pref=getSharedPreferences("data",MODE_PRIVATE);
+        editor=pref.edit();
 
         // 初始化 Bmob SDK
         // 使用时请将第二个参数Application ID替换成你在Bmob服务器端创建的Application ID
@@ -31,16 +36,21 @@ public class LoginAndRegisterActivity extends AppCompatActivity {
 
     private void initEvent() {
 
-        idLoginText.setOnClickListener(new View.OnClickListener() {
+        idStudentText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editor.putBoolean("isTeacher",false);
+                editor.commit();
+
                 IntentUtils.doIntent(LoginAndRegisterActivity.this,LoginActivity.class);
             }
         });
-        idRegisterText.setOnClickListener(new View.OnClickListener() {
+        idTeacherText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtils.doIntent(LoginAndRegisterActivity.this,RegisterActivity.class);
+                editor.putBoolean("isTeacher",true);
+                editor.commit();
+                IntentUtils.doIntent(LoginAndRegisterActivity.this,LoginActivity.class);
             }
         });
 

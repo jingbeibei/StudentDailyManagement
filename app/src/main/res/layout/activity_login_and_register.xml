@@ -23,11 +23,11 @@
             android:layout_width="match_parent"
             android:layout_height="40dp">
             <TextView
-                android:id="@+id/id_login_text"
+                android:id="@+id/id_student_text"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="学号登录"
+                android:text="我是学生"
                 android:textColor="@color/colorWhite"/>
 
         </RelativeLayout>
@@ -40,11 +40,11 @@
             android:layout_width="match_parent"
             android:layout_height="40dp">
             <TextView
-                android:id="@+id/id_register_text"
+                android:id="@+id/id_teacher_text"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="注册"
+                android:text="我是老师"
                 android:textColor="@color/colorWhite"/>
         </RelativeLayout>
 

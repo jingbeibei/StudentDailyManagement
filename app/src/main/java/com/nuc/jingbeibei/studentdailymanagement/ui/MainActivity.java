@@ -1,4 +1,4 @@
-package com.nuc.jingbeibei.studentdailymanagement;
+package com.nuc.jingbeibei.studentdailymanagement.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

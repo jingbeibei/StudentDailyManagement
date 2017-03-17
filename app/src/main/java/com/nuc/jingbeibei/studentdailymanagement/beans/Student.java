@@ -1,34 +1,35 @@
 package com.nuc.jingbeibei.studentdailymanagement.beans;
 
-import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.BmobObject;
+
 
 /**
  * Created by jingbeibei on 2017/3/15.
  */
 
-public class Student extends BmobUser{
-    private String myPassword;//密码
-    private String studentId;//学号
+public class Student extends BmobObject{
+    private String userId;//账号
+    private String password;//密码
     private String sex;//性别
     private String picpath;//头像路径
     private String telephoneNo;//手机号
     private String realName;//真实姓名
     private StudentClass studentClass;//所属班级
 
-    public String getMyPassword() {
-        return myPassword;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setMyPassword(String myPassword) {
-        this.myPassword = myPassword;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getPassword() {
+        return password;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getSex() {

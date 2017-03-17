@@ -17,6 +17,7 @@ import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
+import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
 import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class RegisterActivity extends AppCompatActivity {
     private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
     private boolean isTeacher;
     private EditText idAccountEdit;
     private EditText idPasswordEdit;
@@ -44,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText idRealNameEdit;
     private Integer isCounSelor = 0;
     private AutoCompleteTextView idClassNameAutoText;
-    StudentClass studentClass;
+    private StudentClass studentClass;
 
 
     @Override
@@ -53,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         pref = getSharedPreferences("data", MODE_PRIVATE);
         isTeacher = pref.getBoolean("isTeacher", false);
+        editor=pref.edit();
         initView();
         initEvent();
     }
@@ -84,9 +87,11 @@ public class RegisterActivity extends AppCompatActivity {
                 yanzhengma = idYanzhengmaEdit.getText().toString();
                 realName = idRealNameEdit.getText().toString();
                 if (account.equals("") && password.equals("") && phone.equals("") && yanzhengma.equals("") && realName.equals("")) {
-                    RegisterMethod();
-                } else {
+
                     ToastUtils.toast(RegisterActivity.this, "所有信息不能为空");
+                } else {
+                    RegisterMethod();
+
                 }
             }
         });
@@ -105,18 +110,21 @@ public class RegisterActivity extends AppCompatActivity {
     private void RegisterMethod() {
         if (isTeacher) {
             Teacher teacher = new Teacher();
-            teacher.setTelephoneNo(account);
-            teacher.setMyPassword(password);
+            teacher.setUserId(account);
             teacher.setPassword(password);
             teacher.setTelephoneNo(phone);
             teacher.setRealName(realName);
             teacher.setIsCounselor(isCounSelor);
-            teacher.setUsername(realName);
-            teacher.signUp(new SaveListener<Teacher>() {
+            teacher.setRealName(realName);
+            teacher.save(new SaveListener<String>() {
+
                 @Override
-                public void done(Teacher s, BmobException e) {
+                public void done(String objectId, BmobException e) {
                     if (e == null) {
                         ToastUtils.toast(RegisterActivity.this, "注册成功");
+                        editor.putString("objectid",objectId);
+                        editor.commit();
+                        IntentUtils.doIntent(RegisterActivity.this,MainActivity.class);
                     } else {
                         ToastUtils.toast(RegisterActivity.this, "注册失败");
                     }
@@ -178,6 +186,7 @@ public class RegisterActivity extends AppCompatActivity {
                         addStudent(studentClass);//添加学生
                     }
                 } else {
+                    addStudentClss(classname);//添加班级
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
                 }
             }
@@ -205,24 +214,25 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void addStudent(StudentClass studentclass) {
         Student student = new Student();
-        student.setUsername(realName);
-        student.setStudentId(account);
+        student.setRealName(realName);
+        student.setUserId(account);
         student.setRealName(realName);
         student.setTelephoneNo(phone);
         student.setPassword(password);
-        student.setMyPassword(password);
         student.setStudentClass(studentclass);
-        student.signUp(new SaveListener<Student>() {
+        student.save(new SaveListener<String>() {
             @Override
-            public void done(Student s, BmobException e) {
+            public void done(String s, BmobException e) {
                 if (e == null) {
+                    editor.putString("objectid",s);
+                    editor.commit();
                     ToastUtils.toast(RegisterActivity.this, "注册成功");
+                    IntentUtils.doIntent(RegisterActivity.this,MainActivity.class);
                 } else {
                     ToastUtils.toast(RegisterActivity.this, "注册失败");
                 }
             }
         });
-
 
     }
 

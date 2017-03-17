@@ -1,5 +1,6 @@
 package com.nuc.jingbeibei.studentdailymanagement.beans;
 
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobRelation;
 
@@ -7,9 +8,9 @@ import cn.bmob.v3.datatype.BmobRelation;
  * Created by jingbeibei on 2017/3/15.
  */
 
-public class Teacher extends BmobUser{
-    private String myPassword;//密码
-    private String teacherId;//教工号
+public class Teacher extends BmobObject{
+    private String userId;//账号
+    private String password;//密码
     private String sex;//性别
     private String picpath;//头像路径
     private String telephoneNo;//手机号
@@ -17,20 +18,20 @@ public class Teacher extends BmobUser{
     private BmobRelation holdClass;//所教学的班级  bmob多对多关系类型
     private Integer isCounselor;// 1:是  0：不是   是不是辅导员
 
-    public String getMyPassword() {
-        return myPassword;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setMyPassword(String myPassword) {
-        this.myPassword = myPassword;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getTeacherId() {
-        return teacherId;
+    public String getPassword() {
+        return password;
     }
 
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getSex() {

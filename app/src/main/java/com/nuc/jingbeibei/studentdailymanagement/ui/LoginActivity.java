@@ -3,6 +3,7 @@ package com.nuc.jingbeibei.studentdailymanagement.ui;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +17,14 @@ import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
 import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
 import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
+import java.util.List;
+
+import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,8 +33,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText idPasswordEdit;
     private TextView idRegisterText;
     private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
     private boolean isTeacher;
-    private BmobUser bmobUser;
+
     private ImageView idBackArrowImage;
 
 
@@ -36,13 +44,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ActivityCollector.addActivity(this);
-        pref=getSharedPreferences("data",MODE_PRIVATE);
+        pref = getSharedPreferences("data", MODE_PRIVATE);
+        editor=pref.edit();
         isTeacher = pref.getBoolean("isTeacher", false);
-        if (isTeacher) {
-            bmobUser = new Teacher();
-        } else {
-            bmobUser = new Student();
-        }
+
         initView();
         initEvent();
     }
@@ -60,24 +65,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 idLoginBtn.setText("Loding..");
                 idLoginBtn.setClickable(false);
-                bmobUser.setUsername(account);
-                bmobUser.setPassword(password);
-                bmobUser.login(new SaveListener<BmobUser>() {
-
-                    @Override
-                    public void done(BmobUser bmobUser, BmobException e) {
-                        if (e == null) {
-                            ToastUtils.toast(LoginActivity.this, "登录成功:");
-                            IntentUtils.doIntent(LoginActivity.this, MainActivity.class);
-                            //通过BmobUser user = BmobUser.getCurrentUser()获取登录成功后的本地用户信息
-                            //如果是自定义用户对象MyUser，可通过MyUser user = BmobUser.getCurrentUser(MyUser.class)获取自定义用户信息
-                        } else {
-                            ToastUtils.toast(LoginActivity.this, "登录失败:" + e.toString());
-                            idLoginBtn.setClickable(true);
-                        }
-                    }
-                });
-
+                if (isTeacher) {
+                    verifyUserForTeacher(account, password);
+                } else {
+                    verifyUserForStudent(account, password);
+                }
             }
         });
         idRegisterText.setOnClickListener(new View.OnClickListener() {
@@ -102,4 +94,55 @@ public class LoginActivity extends AppCompatActivity {
         idBackArrowImage = (ImageView) findViewById(R.id.id_back_arrow_image);
 
     }
+
+    private void verifyUserForStudent(String userId, String password) {//验证学生用户 坑啊改变不了泛型 md
+        BmobQuery<Student> query = new BmobQuery<Student>();
+        //查询数据
+        query.addWhereEqualTo("userId", userId);
+        query.addWhereEqualTo("password", password);
+        //返回1条数据，如果不加上这条语句，默认返回10条数据
+        query.setLimit(1);
+        //执行查询方法
+        query.findObjects(new FindListener<Student>() {
+            @Override
+            public void done(List<Student> object, BmobException e) {
+                if (e == null) {
+                    ToastUtils.toast(LoginActivity.this, "登录成功:");
+                    editor.putString("objectid",object.get(0).getObjectId());
+                    editor.commit();
+                    IntentUtils.doIntent(LoginActivity.this, MainActivity.class);
+                } else {
+                    ToastUtils.toast(LoginActivity.this, "用户名或密码错误");
+                    idLoginBtn.setClickable(true);
+                }
+            }
+        });
+
+    }
+
+    private void verifyUserForTeacher(String userId, String password) {//验证学生用户 坑啊改变不了泛型 md
+        BmobQuery<Teacher> query = new BmobQuery<Teacher>();
+        //查询数据
+        query.addWhereEqualTo("userId", userId);
+        query.addWhereEqualTo("password", password);
+        //返回1条数据，如果不加上这条语句，默认返回10条数据
+        query.setLimit(1);
+        //执行查询方法
+        query.findObjects(new FindListener<Teacher>() {
+            @Override
+            public void done(List<Teacher> object, BmobException e) {
+                if (e == null) {
+                    ToastUtils.toast(LoginActivity.this, "登录成功:");
+                    editor.putString("objectid",object.get(0).getObjectId());
+                    editor.commit();
+                    IntentUtils.doIntent(LoginActivity.this, MainActivity.class);
+                } else {
+                    ToastUtils.toast(LoginActivity.this, "用户名或密码错误");
+                    idLoginBtn.setClickable(true);
+                }
+            }
+        });
+
+    }
+
 }

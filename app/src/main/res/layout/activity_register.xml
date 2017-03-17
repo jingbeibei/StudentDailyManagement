@@ -51,6 +51,18 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/icon_black_phone"/>
+
+            <EditText
+                android:id="@+id/id_account_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="输入学号/职工号"
+                android:inputType="number"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textColorHint="#cccccc"
+                android:textSize="16sp" />
+
             <TextView
                 android:gravity="center"
                 android:layout_width="wrap_content"
@@ -59,16 +71,6 @@
                 android:visibility="gone"
                 android:textColor="#000000"
                 android:textSize="20sp"/>
-            <EditText
-                android:id="@+id/id_account_edit"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="输入学号/职工号"
-                android:inputType="phone"
-                android:textColorHint="#cccccc"
-                android:textSize="16sp"
-                android:background="@null"/>
         </LinearLayout>
 
         <TextView
@@ -101,7 +103,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:hint="真实姓名"
-                android:inputType="phone"
                 android:textColorHint="#cccccc"
                 android:textSize="16sp"
                 android:background="@null"/>
@@ -161,7 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="输入手机号"
-                android:inputType="textPassword"
+                android:inputType="phone"
                 android:textColorHint="#cccccc"
                 android:textSize="16sp"
                 android:background="@null"/>

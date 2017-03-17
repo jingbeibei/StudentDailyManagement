@@ -21,4 +21,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="clickPress">#f2f2f2</color>
+
+    <color name="gray">#C0C0C0</color>
 </resources>

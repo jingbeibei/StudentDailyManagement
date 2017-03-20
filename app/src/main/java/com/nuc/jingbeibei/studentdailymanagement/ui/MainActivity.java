@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         three.setCustomView(R.layout.item_tab_three_layout_custom);
         initEvent();
 
-
     }
 
     private void initEvent() {
+
     }
 }

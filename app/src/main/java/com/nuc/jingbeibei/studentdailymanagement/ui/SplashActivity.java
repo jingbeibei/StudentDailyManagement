@@ -17,8 +17,10 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sp = getSharedPreferences("service", 0);
-        if (sp.getBoolean("isStart", false)) {
+//        SharedPreferences sp = getSharedPreferences("service", 0);
+        SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
+        String objectId=pref.getString("objectid","");
+        if (objectId.equals("")) {
             startActivity(new Intent(this,LoginAndRegisterActivity.class));
             finish();
         } else {

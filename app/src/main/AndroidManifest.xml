@@ -32,8 +32,8 @@
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.LoginAndRegisterActivity" />
         <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.RegisterActivity"></activity>
-
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.home.ClassManageActivity"></activity>
     </application>
 
 </manifest>

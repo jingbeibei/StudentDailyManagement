@@ -8,6 +8,7 @@ import cn.bmob.v3.BmobObject;
 
 public class StudentClass extends BmobObject{
     private String classNo;//班级号
+    private Teacher counselor;//辅导员
 
     public String getClassNo() {
         return classNo;
@@ -15,5 +16,13 @@ public class StudentClass extends BmobObject{
 
     public void setClassNo(String classNo) {
         this.classNo = classNo;
+    }
+
+    public Teacher getCounselor() {
+        return counselor;
+    }
+
+    public void setCounselor(Teacher counselor) {
+        this.counselor = counselor;
     }
 }

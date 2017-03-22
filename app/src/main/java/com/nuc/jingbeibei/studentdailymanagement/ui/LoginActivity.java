@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(List<Student> object, BmobException e) {
                 if (e == null) {
-                    ToastUtils.toast(LoginActivity.this, "登录成功:");
+                    ToastUtils.toast(LoginActivity.this, "登录成功");
                     editor.putString("objectid",object.get(0).getObjectId());
                     editor.commit();
                     IntentUtils.doIntent(LoginActivity.this, MainActivity.class);

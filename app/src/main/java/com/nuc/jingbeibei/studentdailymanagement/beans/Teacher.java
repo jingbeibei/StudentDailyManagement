@@ -16,7 +16,7 @@ public class Teacher extends BmobObject{
     private String telephoneNo;//手机号
     private String realName;//真实姓名
     private BmobRelation holdClass;//所教学的班级  bmob多对多关系类型
-    private Integer isCounselor;// 1:是  0：不是   是不是辅导员
+    private Boolean isCounselor;// 是不是辅导员
 
     public String getUserId() {
         return userId;
@@ -74,11 +74,11 @@ public class Teacher extends BmobObject{
         this.holdClass = holdClass;
     }
 
-    public Integer getIsCounselor() {
+    public Boolean getIsCounselor() {
         return isCounselor;
     }
 
-    public void setIsCounselor(Integer isCounselor) {
+    public void setIsCounselor(Boolean isCounselor) {
         this.isCounselor = isCounselor;
     }
 }

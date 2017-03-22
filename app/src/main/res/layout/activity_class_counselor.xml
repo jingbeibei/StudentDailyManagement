@@ -10,7 +10,7 @@
         android:id="@+id/id_add_class_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="添加班级"
+        android:text="添加辅导班级"
         />
 
     <android.support.v7.widget.RecyclerView

@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     private LinearLayout idCounselorLayout;
     private String account, password, phone, yanzhengma, realName, classname;
     private EditText idRealNameEdit;
-    private Integer isCounSelor = 0;
+    private boolean isCounSelor = false;
     private AutoCompleteTextView idClassNameAutoText;
     private StudentClass studentClass;
 
@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         pref = getSharedPreferences("data", MODE_PRIVATE);
         isTeacher = pref.getBoolean("isTeacher", false);
-        editor=pref.edit();
+        editor = pref.edit();
         initView();
         initEvent();
     }
@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 if (checkedId == R.id.id_iscounselor_true_radiobtn) {
-                    isCounSelor = 1;
+                    isCounSelor = true;
                 }
             }
         });
@@ -122,9 +122,9 @@ public class RegisterActivity extends AppCompatActivity {
                 public void done(String objectId, BmobException e) {
                     if (e == null) {
                         ToastUtils.toast(RegisterActivity.this, "注册成功");
-                        editor.putString("objectid",objectId);
+                        editor.putString("objectid", objectId);
                         editor.commit();
-                        IntentUtils.doIntent(RegisterActivity.this,MainActivity.class);
+                        IntentUtils.doIntent(RegisterActivity.this, MainActivity.class);
                     } else {
                         ToastUtils.toast(RegisterActivity.this, "注册失败");
                     }
@@ -171,23 +171,24 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         BmobQuery<StudentClass> query = new BmobQuery<StudentClass>();
-        query.addWhereEqualTo("classNO", classname);
+        query.addWhereEqualTo("classNo", classname);
         //返回100条数据，如果不加上这条语句，默认返回10条数据
-        query.setLimit(1);
+//        query.setLimit();
         //执行查询方法
         query.findObjects(new FindListener<StudentClass>() {
             @Override
             public void done(List<StudentClass> object, BmobException e) {
                 if (e == null) {
-                    studentClass = object.get(0);
+                    if (object.size() != 0) {
+                        studentClass = object.get(0);
+                    }
                     if (studentClass == null) {//如果没有这个班级
                         addStudentClss(classname);//添加班级
                     } else {
                         addStudent(studentClass);//添加学生
                     }
                 } else {
-                    addStudentClss(classname);//添加班级
-                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                    ToastUtils.toast(RegisterActivity.this, "bmob失败：" + e.getMessage() + "," + e.getErrorCode());
                 }
             }
         });
@@ -204,7 +205,7 @@ public class RegisterActivity extends AppCompatActivity {
                     studentClass.setObjectId(id);
                     addStudent(studentClass);
                 } else {
-                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
+                    ToastUtils.toast(RegisterActivity.this, "bmob失败：" + e.getMessage() + "," + e.getErrorCode());
                 }
             }
         });
@@ -224,10 +225,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void done(String s, BmobException e) {
                 if (e == null) {
-                    editor.putString("objectid",s);
+                    editor.putString("objectid", s);
                     editor.commit();
                     ToastUtils.toast(RegisterActivity.this, "注册成功");
-                    IntentUtils.doIntent(RegisterActivity.this,MainActivity.class);
+                    IntentUtils.doIntent(RegisterActivity.this, MainActivity.class);
                 } else {
                     ToastUtils.toast(RegisterActivity.this, "注册失败");
                 }

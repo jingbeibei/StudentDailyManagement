@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.io.Serializable;
+
 /**
  * Created by jingbeibei on 2017/3/15.
  */
@@ -40,5 +42,10 @@ public class IntentUtils {
         intent.putExtra(key, values);
         intent.putExtra(key1, values1);
         context.startActivityForResult(intent, requestCode);
+    }
+    public static void doIntentWithObject(Context context, Class<?> activity, String key,Serializable value){
+        Intent intent = new Intent(context, activity);
+        intent.putExtra(key, value);
+        context.startActivity(intent);
     }
 }

@@ -18,38 +18,31 @@ import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.ClassAdapter;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
-import com.nuc.jingbeibei.studentdailymanagement.utils.GetObjectSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
-import cn.bmob.v3.listener.UpdateListener;
 
-public class ClassManageActivity extends AppCompatActivity {
-    private RecyclerView idClassManageRecycView;
-    private LinearLayoutManager mLayoutManager;
-    private Button idAddClassBtn;
-    private ArrayList<String> allClassList = new ArrayList<String>();
-    private List<String> teacherClassList = new ArrayList<String>();
-    private List<StudentClass> myobject = new ArrayList<>();
-    private List<StudentClass> teacherClass = new ArrayList<>();
-    private List<StudentClass> teacherClassService = null;//第一次网络查询的班级
+public class ClassCounselorActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private String objectId;
     private BmobObject bmobObject;
+    private RecyclerView idClassManageRecycView;
+    private LinearLayoutManager mLayoutManager;
+    private Button idAddClassBtn;
     private ClassAdapter myAdapter;
-
+    private List<StudentClass> myobject = new ArrayList<>();
+    private ArrayList<String> allClassList = new ArrayList<String>();
+    private List<StudentClass> teacherClass = new ArrayList<>();
+    private List<String> teacherClassList = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_manage);
+        setContentView(R.layout.activity_class_counselor);
         pref = getSharedPreferences("data", MODE_PRIVATE);
         objectId = pref.getString("objectid", "");
         bmobObject = (BmobObject) getIntent().getSerializableExtra("object");
@@ -77,7 +70,6 @@ public class ClassManageActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
-
         idAddClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,11 +77,11 @@ public class ClassManageActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
-    public void getAllClass() {//获得所有班级
+    public void getAllClass() {//获得所有没有辅导员的班级
         BmobQuery<StudentClass> query = new BmobQuery<StudentClass>();
+        query.addWhereDoesNotExists("counselor");//查询counselor列没有值得数据，即没有辅导员的班级
         query.setLimit(50);
 //执行查询方法
         query.findObjects(new FindListener<StudentClass>() {
@@ -113,7 +105,7 @@ public class ClassManageActivity extends AppCompatActivity {
 
     public void showDialog() {
         String[] sarray = (String[]) allClassList.toArray(new String[allClassList.size()]);
-        new AlertDialog.Builder(ClassManageActivity.this).setTitle("复选框")
+        new AlertDialog.Builder(ClassCounselorActivity.this).setTitle("复选框")
                 .setMultiChoiceItems(sarray, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -133,71 +125,4 @@ public class ClassManageActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("取消", null).show();
     }
-
-    public void addClass(List<StudentClass> studentClassList, Teacher teacher) {//将班级与老师关联
-
-        BmobRelation relation = new BmobRelation();
-        for (StudentClass studentClass : studentClassList) {
-            relation.add(studentClass);
-        }
-        teacher.setHoldClass(relation);
-        teacher.update(new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    allClassList.clear();
-                    Log.i("bmob", "多对多关联添加成功");
-                    getTeacherClass();
-                } else {
-                    Log.i("bmob", "失败：" + e.getMessage());
-                }
-            }
-
-        });
-    }
-
-//    public void getTeacherInstance(final List<StudentClass> studentClassList, String objectId) {//获得老师信息
-//        BmobQuery<Teacher> query = new BmobQuery<Teacher>();
-//        query.getObject(objectId, new QueryListener<Teacher>() {
-//
-//            @Override
-//            public void done(Teacher object, BmobException e) {
-//                if (e == null) {
-//                    addClass(studentClassList, object);
-//                } else {
-//                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
-//                }
-//            }
-//        });
-//
-//    }
-
-
-    public void getTeacherClass() {
-        teacherClass.clear();
-        // 查询老师关联的所有班级，因此查询的是班级
-        BmobQuery<StudentClass> query = new BmobQuery<StudentClass>();
-        query.addWhereRelatedTo("holdClass", new BmobPointer(bmobObject));
-        query.findObjects(new FindListener<StudentClass>() {
-
-            @Override
-            public void done(List<StudentClass> object, BmobException e) {
-                if (e == null) {
-                    if (object.size() != 0) {
-                        teacherClassService = object;
-                        for (StudentClass studentclass : object) {
-                            teacherClassList.add(studentclass.getClassNo());
-                        }
-                    }
-                    myAdapter.setTeacherHolderClass(teacherClassService);
-                    myAdapter.notifyDataSetChanged();
-                    Log.i("bmob", "查询个数：" + object.size());
-                } else {
-                    Log.i("bmob", "失败：" + e.getMessage());
-                }
-            }
-
-        });
-    }
-
 }

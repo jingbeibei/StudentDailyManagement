@@ -2,6 +2,7 @@ package com.nuc.jingbeibei.studentdailymanagement.adapter;
 
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -10,24 +11,40 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
+import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.List;
 
+import cn.bmob.v3.datatype.BmobRelation;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
+
 /**
  * Created by jingbeibei on 2017/3/21.
  */
 
-public class ClassAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter{
-    private  List<String> mItems = new ArrayList<>();
+public class ClassAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
+    private List<String> mItems = null;
+    private Teacher teacher;
+
+    public void setTeacherHolderClass(List<StudentClass> teacherHolderClass) {
+        this.teacherHolderClass = teacherHolderClass;
+    }
+
+    private List<StudentClass> teacherHolderClass;
+
     private static final String[] STRINGS = new String[]{
             "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"
     };
-    public ClassAdapter() {
-//        this.mItems=mItems;
-        mItems.addAll(Arrays.asList(STRINGS));
+
+    public ClassAdapter(List mItems, Teacher teacher) {
+        this.mItems = mItems;
+        this.teacher = teacher;
+//        mItems.addAll(Arrays.asList(STRINGS));
 
     }
 
@@ -41,7 +58,7 @@ public class ClassAdapter extends RecyclerView.Adapter implements ItemTouchHelpe
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ItemViewHolder)holder).textView.setText(mItems.get(position));
+        ((ItemViewHolder) holder).textView.setText(mItems.get(position));
     }
 
 
@@ -61,11 +78,12 @@ public class ClassAdapter extends RecyclerView.Adapter implements ItemTouchHelpe
     public void onItemDissmiss(int position) {
         mItems.remove(position);
         notifyItemRemoved(position);
+        removeClassService(teacherHolderClass.get(position));
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        public  TextView textView;
+        public TextView textView;
 
 
         public ItemViewHolder(View itemView) {
@@ -74,5 +92,27 @@ public class ClassAdapter extends RecyclerView.Adapter implements ItemTouchHelpe
 
         }
 
+    }
+
+    public void clearItemData() {
+        mItems.clear();
+    }
+
+    private void removeClassService(StudentClass studentClass) {
+        BmobRelation relation = new BmobRelation();
+        relation.remove(studentClass);
+        teacher.setHoldClass(relation);
+        teacher.update(new UpdateListener() {
+
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    Log.i("bmob", "关联关系删除成功");
+                } else {
+                    Log.i("bmob", "失败：" + e.getMessage());
+                }
+            }
+
+        });
     }
 }

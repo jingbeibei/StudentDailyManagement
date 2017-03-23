@@ -18,14 +18,18 @@ import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.ClassAdapter;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
+import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class ClassCounselorActivity extends AppCompatActivity {
     private SharedPreferences pref;
@@ -39,6 +43,8 @@ public class ClassCounselorActivity extends AppCompatActivity {
     private ArrayList<String> allClassList = new ArrayList<String>();
     private List<StudentClass> teacherClass = new ArrayList<>();
     private List<String> teacherClassList = new ArrayList<String>();
+    private List<StudentClass> teacherClassService = null;//第一次网络查询的班级
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,7 @@ public class ClassCounselorActivity extends AppCompatActivity {
         initEvent();
     }
 
+
     private void initView() {
         idAddClassBtn = (Button) findViewById(R.id.id_add_class_btn);
         idClassManageRecycView = (RecyclerView) findViewById(R.id.id_class_manage_recycview);
@@ -58,7 +65,7 @@ public class ClassCounselorActivity extends AppCompatActivity {
         idClassManageRecycView.setLayoutManager(mLayoutManager);
         idClassManageRecycView.setItemAnimator(new DefaultItemAnimator());//增加或删除条目动画
         idClassManageRecycView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
-        myAdapter = new ClassAdapter(teacherClassList, (Teacher) bmobObject);
+        myAdapter = new ClassAdapter(teacherClassList, (Teacher) bmobObject, 0);
 //idClassManageRecycView.setAdapter(myAdapter);
         //先实例化Callback
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(myAdapter);
@@ -79,6 +86,34 @@ public class ClassCounselorActivity extends AppCompatActivity {
         });
     }
 
+    private void getTeacherClass() {//获得老师所辅导的班级
+        if (teacherClassList != null) {
+            teacherClassList.clear();
+        }
+        BmobQuery<StudentClass> query = new BmobQuery<StudentClass>();
+//用此方式可以构造一个BmobPointer对象
+        query.addWhereEqualTo("counselor", new BmobPointer(bmobObject));
+        query.findObjects(new FindListener<StudentClass>() {
+
+            @Override
+            public void done(List<StudentClass> object, BmobException e) {
+                if (e == null) {
+                    if (object.size() != 0) {
+                        teacherClassService = object;
+                        for (StudentClass studentclass : object) {
+                            teacherClassList.add(studentclass.getClassNo());
+                        }
+                    }
+                    myAdapter.setTeacherHolderClass(teacherClassService);
+                    myAdapter.notifyDataSetChanged();
+                    Log.i("bmob", "查询个数：" + object.size());
+                } else {
+                    Log.i("bmob", "失败：" + e.getMessage());
+                }
+            }
+        });
+    }
+
     public void getAllClass() {//获得所有没有辅导员的班级
         BmobQuery<StudentClass> query = new BmobQuery<StudentClass>();
         query.addWhereDoesNotExists("counselor");//查询counselor列没有值得数据，即没有辅导员的班级
@@ -92,9 +127,10 @@ public class ClassCounselorActivity extends AppCompatActivity {
                         myobject.addAll(object);
                         for (StudentClass studentclass : object) {
                             allClassList.add(studentclass.getClassNo());
-//                       allClassList.add(object.get(i).getClassNo());
                         }
                         showDialog();
+                    } else {
+                        ToastUtils.toast(ClassCounselorActivity.this, "暂时没有合适班级");
                     }
                 } else {
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
@@ -119,10 +155,30 @@ public class ClassCounselorActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d("班级号", teacherClass.toString());
 //                        getTeacherInstance(teacherClass, objectId);
-                        addClass(teacherClass, (Teacher) bmobObject);
+                        addTeacher(teacherClass, (Teacher) bmobObject);
                         myAdapter.clearItemData();
                     }
                 })
                 .setNegativeButton("取消", null).show();
     }
+
+    private void addTeacher(List<StudentClass> ClassList, Teacher bmobObject) {
+        for (StudentClass studentClass : ClassList) {
+            studentClass.setCounselor(bmobObject);
+            studentClass.update(new UpdateListener() {
+
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "辅导员添加成功");
+                        getTeacherClass();
+                    } else {
+                        Log.i("bmob", "辅导员添加失败：" + e.getMessage());
+                    }
+                }
+
+            });
+        }
+    }
+
 }

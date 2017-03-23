@@ -30,6 +30,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class ClassAdapter extends RecyclerView.Adapter implements ItemTouchHelperAdapter {
     private List<String> mItems = null;
     private Teacher teacher;
+    private int flag=0;//0代表班级，  1代表老师
 
     public void setTeacherHolderClass(List<StudentClass> teacherHolderClass) {
         this.teacherHolderClass = teacherHolderClass;
@@ -41,9 +42,10 @@ public class ClassAdapter extends RecyclerView.Adapter implements ItemTouchHelpe
             "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"
     };
 
-    public ClassAdapter(List mItems, Teacher teacher) {
+    public ClassAdapter(List mItems, Teacher teacher,int flag) {
         this.mItems = mItems;
         this.teacher = teacher;
+        this.flag=flag;
 //        mItems.addAll(Arrays.asList(STRINGS));
 
     }
@@ -99,20 +101,37 @@ public class ClassAdapter extends RecyclerView.Adapter implements ItemTouchHelpe
     }
 
     private void removeClassService(StudentClass studentClass) {
-        BmobRelation relation = new BmobRelation();
-        relation.remove(studentClass);
-        teacher.setHoldClass(relation);
-        teacher.update(new UpdateListener() {
+        if (flag==1) {
+            BmobRelation relation = new BmobRelation();
+            relation.remove(studentClass);
+            teacher.setHoldClass(relation);
+            teacher.update(new UpdateListener() {
 
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    Log.i("bmob", "关联关系删除成功");
-                } else {
-                    Log.i("bmob", "失败：" + e.getMessage());
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        Log.i("bmob", "关联关系删除成功");
+                    } else {
+                        Log.i("bmob", "失败：" + e.getMessage());
+                    }
                 }
-            }
 
-        });
+            });
+        }else {
+            studentClass.remove("counselor");
+            studentClass.update(new UpdateListener() {
+
+                @Override
+                public void done(BmobException e) {
+                    if(e==null){
+                        Log.i("bmob","删除辅导员成功");
+                    }else{
+                        Log.i("bmob","删除辅导员失败："+e.getMessage());
+                    }
+                }
+
+            });
+
+        }
     }
 }

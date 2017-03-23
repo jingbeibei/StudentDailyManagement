@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 if (isCounselor){
                     IntentUtils.doIntent(getActivity(), ClassManageActivity.class);
-                    IntentUtils.doIntentWithObject(getActivity(), ClassManageActivity.class, "object", object);
+                    IntentUtils.doIntentWithObject(getActivity(), ClassCounselorActivity.class, "object", object);
                 }else {
                     ToastUtils.toast(getActivity(),"您还不是辅导员，暂时无法使用此功能");
                 }
@@ -94,6 +94,7 @@ public class HomeFragment extends Fragment {
             public void done(Teacher object1, BmobException e) {
                 if (e == null) {
                     object = object1;
+                    isCounselor=object1.getIsCounselor();
                 } else {
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
                 }

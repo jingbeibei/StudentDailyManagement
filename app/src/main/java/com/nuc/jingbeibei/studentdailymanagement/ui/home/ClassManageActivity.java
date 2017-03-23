@@ -19,6 +19,7 @@ import com.nuc.jingbeibei.studentdailymanagement.adapter.ClassAdapter;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
 import com.nuc.jingbeibei.studentdailymanagement.utils.GetObjectSingleton;
+import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class ClassManageActivity extends AppCompatActivity {
         idClassManageRecycView.setLayoutManager(mLayoutManager);
         idClassManageRecycView.setItemAnimator(new DefaultItemAnimator());//增加或删除条目动画
         idClassManageRecycView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
-        myAdapter = new ClassAdapter(teacherClassList, (Teacher) bmobObject);
+        myAdapter = new ClassAdapter(teacherClassList, (Teacher) bmobObject, 1);
 //idClassManageRecycView.setAdapter(myAdapter);
         //先实例化Callback
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(myAdapter);
@@ -103,6 +104,8 @@ public class ClassManageActivity extends AppCompatActivity {
 //                       allClassList.add(object.get(i).getClassNo());
                         }
                         showDialog();
+                    } else {
+                        ToastUtils.toast(ClassManageActivity.this, "暂时没有合适班级");
                     }
                 } else {
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
@@ -174,7 +177,9 @@ public class ClassManageActivity extends AppCompatActivity {
 
 
     public void getTeacherClass() {
-        teacherClass.clear();
+        if (teacherClass != null) {
+            teacherClass.clear();
+        }
         // 查询老师关联的所有班级，因此查询的是班级
         BmobQuery<StudentClass> query = new BmobQuery<StudentClass>();
         query.addWhereRelatedTo("holdClass", new BmobPointer(bmobObject));

@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment {
     private BmobObject object;
     private boolean isCounselor=false;
     private Button idClassCounselorBtn;
+    public Button idNoticeBtn;
 
 
     @Override
@@ -62,6 +63,7 @@ public class HomeFragment extends Fragment {
     private void initView(View view) {
         idClassManagementBtn = (Button) view.findViewById(R.id.id_class_management_btn);
         idClassCounselorBtn= (Button) view.findViewById(R.id.id_class_counselor_btn);
+        idNoticeBtn= (Button) view.findViewById(R.id.id_notice_btn);
 
     }
 
@@ -69,7 +71,7 @@ public class HomeFragment extends Fragment {
         idClassManagementBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtils.doIntent(getActivity(), ClassManageActivity.class);
+//                IntentUtils.doIntent(getActivity(), ClassManageActivity.class);
                 IntentUtils.doIntentWithObject(getActivity(), ClassManageActivity.class, "object", object);
             }
         });
@@ -77,11 +79,17 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (isCounselor){
-                    IntentUtils.doIntent(getActivity(), ClassManageActivity.class);
+//                    IntentUtils.doIntent(getActivity(), ClassManageActivity.class);
                     IntentUtils.doIntentWithObject(getActivity(), ClassCounselorActivity.class, "object", object);
                 }else {
                     ToastUtils.toast(getActivity(),"您还不是辅导员，暂时无法使用此功能");
                 }
+            }
+        });
+        idNoticeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.doIntentWithObject(getActivity(), NoticeActivity.class, "object", object);
             }
         });
     }

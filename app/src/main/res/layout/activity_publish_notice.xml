@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.publishNoticeActivity">
+<EditText
+    android:id="@+id/id_notice_title_edit"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:hint="标题"
+    android:layout_marginTop="@dimen/activity_horizontal_margin"
+    />
+    <EditText
+        android:id="@+id/id_notice_content_edit"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="内容"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        />
+    <Button
+        android:id="@+id/id_select_class_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择班级"
+        />
+    <Button
+        android:id="@+id/id_publish_notice_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发布"
+        />
+    <TextView
+        android:id="@+id/id_visible_class_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

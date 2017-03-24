@@ -34,7 +34,9 @@
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.home.ClassManageActivity" />
-        <activity android:name=".ui.home.ClassCounselorActivity"></activity>
+        <activity android:name=".ui.home.ClassCounselorActivity" />
+        <activity android:name=".ui.home.NoticeActivity" />
+        <activity android:name=".ui.home.publishNoticeActivity"></activity>
     </application>
 
 </manifest>

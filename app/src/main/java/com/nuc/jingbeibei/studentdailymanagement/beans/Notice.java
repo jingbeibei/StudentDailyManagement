@@ -1,5 +1,7 @@
 package com.nuc.jingbeibei.studentdailymanagement.beans;
 
+import java.util.Date;
+
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobRelation;
 

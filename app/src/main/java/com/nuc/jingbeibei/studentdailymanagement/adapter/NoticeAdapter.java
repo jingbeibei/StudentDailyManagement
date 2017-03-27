@@ -17,6 +17,12 @@ import java.util.ArrayList;
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder>{
     public ArrayList<String> datas = null;
 
+    public void setListener(MyItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    private MyItemClickListener listener;
+
     public NoticeAdapter(ArrayList<String> datas) {
         this.datas = datas;
     }
@@ -24,7 +30,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item,parent,false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,listener);
     }
 
     @Override
@@ -38,11 +44,20 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView mTextView;
-        public ViewHolder(View view){
+        private MyItemClickListener listener;
+        public ViewHolder(View view,MyItemClickListener listener){
             super(view);
             mTextView = (TextView) view.findViewById(R.id.text);
+            this.listener=listener;
+            view.setOnClickListener(ViewHolder.this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int positon=getAdapterPosition();
+            listener.onItemClick(v,getAdapterPosition());
         }
     }
 }

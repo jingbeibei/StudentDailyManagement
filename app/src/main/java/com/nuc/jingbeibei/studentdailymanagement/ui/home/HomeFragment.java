@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment {
     private boolean isCounselor=false;
     private Button idClassCounselorBtn;
     public Button idNoticeBtn;
+    public Button idAddressBookBtn;
 
 
     @Override
@@ -64,7 +65,7 @@ public class HomeFragment extends Fragment {
         idClassManagementBtn = (Button) view.findViewById(R.id.id_class_management_btn);
         idClassCounselorBtn= (Button) view.findViewById(R.id.id_class_counselor_btn);
         idNoticeBtn= (Button) view.findViewById(R.id.id_notice_btn);
-
+        idAddressBookBtn= (Button) view.findViewById(R.id.id_address_book_btn);
     }
 
     private void initEvent() {
@@ -90,6 +91,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 IntentUtils.doIntentWithObject(getActivity(), NoticeActivity.class, "object", object);
+            }
+        });
+        idAddressBookBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.doIntentWithObject(getActivity(), AddressBookActivity.class, "object", object);
             }
         });
     }

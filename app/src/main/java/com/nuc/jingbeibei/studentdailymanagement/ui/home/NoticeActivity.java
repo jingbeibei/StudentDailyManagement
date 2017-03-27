@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.adapter.MyItemClickListener;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.NoticeAdapter;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Notice;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
@@ -32,7 +34,7 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
-public class NoticeActivity extends AppCompatActivity {
+public class NoticeActivity extends AppCompatActivity implements MyItemClickListener{
     private Button idPublishNoticeBtn;
 
     private BmobObject bmobObject;
@@ -40,6 +42,7 @@ public class NoticeActivity extends AppCompatActivity {
     private NoticeAdapter mAdapter;
 
     private ArrayList<String> listData;
+    private List<Notice> noticeList=new ArrayList<>();
 
 
     private static final int STATE_REFRESH = 0;// 下拉刷新
@@ -71,6 +74,7 @@ public class NoticeActivity extends AppCompatActivity {
 
         listData = new ArrayList<String>();
         mAdapter = new NoticeAdapter(listData);
+        mAdapter.setListener(this);
         mRecyclerView = (XRecyclerView) findViewById(R.id.notice_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -153,6 +157,7 @@ public class NoticeActivity extends AppCompatActivity {
                             // 当是下拉刷新操作时，将当前页的编号重置为0，并把bankCards清空，重新添加
                             curPage = 0;
                             listData.clear();
+                            noticeList.clear();
                             // 获取最后时间
                             lastTime = list.get(list.size() - 1).getCreatedAt();
                         }
@@ -161,6 +166,7 @@ public class NoticeActivity extends AppCompatActivity {
                         for (Notice notice : list) {
                             listData.add(notice.getTitle());
                         }
+                        noticeList.addAll(list);
                         // 这里在每次加载完数据后，将当前页码+1，这样在上拉刷新的onPullUpToRefresh方法中就不需要操作curPage了
                         curPage++;
 //                        showToast("第" + (page + 1) + "页数据加载完成");
@@ -193,9 +199,9 @@ public class NoticeActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
+    @Override
+    public void onItemClick(View view, int postion) {
+        Toast.makeText(this, "我是第" + postion + "项", Toast.LENGTH_SHORT).show();
+        IntentUtils.doIntentWithObject(NoticeActivity.this,NoticeDetailsActivity.class,"notice",noticeList.get(postion-1));
+    }
 }

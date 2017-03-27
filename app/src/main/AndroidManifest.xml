@@ -36,7 +36,9 @@
         <activity android:name=".ui.home.ClassManageActivity" />
         <activity android:name=".ui.home.ClassCounselorActivity" />
         <activity android:name=".ui.home.NoticeActivity" />
-        <activity android:name=".ui.home.publishNoticeActivity"></activity>
+        <activity android:name=".ui.home.publishNoticeActivity" />
+        <activity android:name=".ui.home.NoticeDetailsActivity" />
+        <activity android:name=".ui.home.AddressBookActivity"></activity>
     </application>
 
 </manifest>

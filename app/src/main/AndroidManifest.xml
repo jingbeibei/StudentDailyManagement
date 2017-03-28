@@ -3,6 +3,7 @@
     package="com.nuc.jingbeibei.studentdailymanagement">
 
     <!-- 允许联网 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -38,7 +39,10 @@
         <activity android:name=".ui.home.NoticeActivity" />
         <activity android:name=".ui.home.publishNoticeActivity" />
         <activity android:name=".ui.home.NoticeDetailsActivity" />
-        <activity android:name=".ui.home.AddressBookActivity"></activity>
+        <activity android:name=".ui.home.AddressBookActivity" />
+        <activity android:name=".ui.home.AskForLeaveActivity" />
+        <activity android:name=".ui.home.AskLeaveRecordListActivity" />
+        <activity android:name=".ui.home.AskForLeaveDetailsActivity"></activity>
     </application>
 
 </manifest>

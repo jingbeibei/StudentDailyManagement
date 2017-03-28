@@ -20,7 +20,7 @@ import cn.bmob.v3.BmobObject;
  */
 
 public class AddressBookAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder> {
-    public List<BmobObject> datas = null;
+    private List<BmobObject> datas = null;
     private MyItemClickListener listener;
     private boolean isTeacher;
 
@@ -60,16 +60,17 @@ public class AddressBookAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewH
         public TextView mTextView;
         private MyItemClickListener listener;
 
+
         public ViewHolder(View view, MyItemClickListener listener) {
             super(view);
             mTextView = (TextView) view.findViewById(R.id.text);
             this.listener = listener;
+
             view.setOnClickListener(AddressBookAdapter.ViewHolder.this);
         }
 
         @Override
         public void onClick(View v) {
-            int positon = getAdapterPosition();
             listener.onItemClick(v, getAdapterPosition());
         }
     }

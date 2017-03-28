@@ -35,5 +35,11 @@
         android:layout_height="wrap_content"
         android:text="通讯录"
         />
+    <Button
+        android:id="@+id/id_ask_for_leave_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请销假"
+        />
 
 </LinearLayout>

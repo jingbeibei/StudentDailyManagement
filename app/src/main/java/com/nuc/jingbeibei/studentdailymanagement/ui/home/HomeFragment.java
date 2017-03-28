@@ -33,8 +33,10 @@ public class HomeFragment extends Fragment {
     private BmobObject object;
     private boolean isCounselor=false;
     private Button idClassCounselorBtn;
-    public Button idNoticeBtn;
-    public Button idAddressBookBtn;
+    private Button idNoticeBtn;
+   private Button idAddressBookBtn;
+    private Button idAskForLeaveBtn;
+
 
 
     @Override
@@ -66,6 +68,7 @@ public class HomeFragment extends Fragment {
         idClassCounselorBtn= (Button) view.findViewById(R.id.id_class_counselor_btn);
         idNoticeBtn= (Button) view.findViewById(R.id.id_notice_btn);
         idAddressBookBtn= (Button) view.findViewById(R.id.id_address_book_btn);
+        idAskForLeaveBtn= (Button) view.findViewById(R.id.id_ask_for_leave_btn);
     }
 
     private void initEvent() {
@@ -99,6 +102,16 @@ public class HomeFragment extends Fragment {
                 IntentUtils.doIntentWithObject(getActivity(), AddressBookActivity.class, "object", object);
             }
         });
+        idAskForLeaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isTeacher){
+
+                }else {
+                    IntentUtils.doIntentWithObject(getActivity(),AskForLeaveActivity.class,"object",object);
+                }
+            }
+        });
     }
 
     private void getTeacherObject() {
@@ -119,12 +132,14 @@ public class HomeFragment extends Fragment {
 
     private void getStudentObject() {
         BmobQuery<Student> query = new BmobQuery<Student>();
+        query.include("studentClass.counselor");
         query.getObject(objectId, new QueryListener<Student>() {
 
             @Override
             public void done(Student object1, BmobException e) {
                 if (e == null) {
                     object = object1;
+
                 } else {
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
                 }

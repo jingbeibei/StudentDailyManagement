@@ -6,7 +6,7 @@ import cn.bmob.v3.BmobObject;
  * Created by jingbeibei on 2017/3/15.
  */
 
-public class LeaveRecord extends BmobObject{//请假记录
+public class LeaveRecord extends BmobObject {//请假记录
     private String reason;//请假原因
     private String startTime;//开始时间
     private String endTime;//结束时间
@@ -15,6 +15,34 @@ public class LeaveRecord extends BmobObject{//请假记录
     private String parentTelephoneNo;//家长联系方式
     private Student student;//请假人
     private Teacher counselorName;//审批者
+    private String homeAddress;//家庭联系地址
+    private String replyContent;//回复内容
+    private String state;//假条状态{同意，拒绝，审批中}
+
+    public String getReplyContent() {
+        return replyContent;
+    }
+
+    public void setReplyContent(String replyContent) {
+        this.replyContent = replyContent;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
 
     public String getReason() {
         return reason;

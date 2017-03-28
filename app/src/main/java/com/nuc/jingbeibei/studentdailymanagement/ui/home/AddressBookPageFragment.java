@@ -1,9 +1,16 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui.home;
 
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,9 +21,12 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.AddressBookAdapter;
+import com.nuc.jingbeibei.studentdailymanagement.adapter.MyItemClickListener;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
+import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
+import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddressBookPageFragment extends Fragment {
+public class AddressBookPageFragment extends Fragment implements MyItemClickListener {
     private static final String EXTRA_TYPE = "type";
     private static final String EXTRA_OBJECTID = "objectId";
     private String objectId;
@@ -98,7 +108,7 @@ public class AddressBookPageFragment extends Fragment {
                 queryTeacherByStudentID();
             }
         }
-
+        maddressBookAdapter.setListener(this);
         mRecyclerView = (XRecyclerView) view.findViewById(R.id.address_book_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -290,5 +300,49 @@ public class AddressBookPageFragment extends Fragment {
             });
         }
 
+    }
+
+
+    @Override
+    public void onItemClick(View view, int postion) {
+        String phone="";
+        if (type.equals("学生")) {//学生：进入学生选项卡
+            Student s= (Student) studentList.get(postion-1);
+           phone=s.getTelephoneNo();
+        } else {//老师选项卡
+           Teacher t= (Teacher) teacherList.get(postion-1);
+            phone=t.getTelephoneNo();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                getActivity());
+        final String finalPhone = phone;
+        builder.setMessage("是否拨打电话？").setPositiveButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).setNegativeButton("确认", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String phone_number = "10086";
+                Intent intent2 = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
+                        + finalPhone));
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    ToastUtils.toast(getActivity(), "请开启打电话权限");
+                    return;
+                }
+                getActivity().startActivity(intent2);
+            }
+        }).show();
     }
 }

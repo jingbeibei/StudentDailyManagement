@@ -56,27 +56,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="审批者" />
-
+<TextView
+    android:id="@+id/id_leave_state_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="状态"
+    />
     <EditText
         android:id="@+id/id_leave_reply_content_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:hint="回复" />
 
     <RadioGroup
         android:id="@+id/radioGroupID"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/femaleGroupID"
+            android:id="@+id/passGroupID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="同意" />
 
         <RadioButton
-            android:id="@+id/maleGroupID"
+            android:id="@+id/refusedGroupID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="拒绝" />
@@ -86,5 +94,6 @@
         android:id="@+id/id_leave_commit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="提交" />
 </LinearLayout>

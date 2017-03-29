@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (isTeacher){
-
+                    IntentUtils.doIntentWithObject(getActivity(),AskLeaveRecordListActivity.class,"object",object);
                 }else {
                     IntentUtils.doIntentWithObject(getActivity(),AskForLeaveActivity.class,"object",object);
                 }

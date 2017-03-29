@@ -132,6 +132,7 @@ public class AskForLeaveActivity extends AppCompatActivity {
         leaveRecord.setParentTelephoneNo(pareatTelephoneNo);
         leaveRecord.setHomeAddress(homeAddress);
         leaveRecord.setCounselorName(student.getStudentClass().getCounselor());
+        leaveRecord.setState("审批中");
         leaveRecord.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {

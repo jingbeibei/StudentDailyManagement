@@ -25,7 +25,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 
 public class HomeFragment extends Fragment {
-
+//终于成功了
     private SharedPreferences pref;
     private Button idClassManagementBtn;
     private String objectId = "";

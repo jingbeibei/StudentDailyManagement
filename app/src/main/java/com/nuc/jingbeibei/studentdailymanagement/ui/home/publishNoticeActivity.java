@@ -62,6 +62,11 @@ public class publishNoticeActivity extends AppCompatActivity {
         selectClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (studentClassList != null)
+                    studentClassList.clear();
+                if (noticeClassList != null) {
+                    noticeClassList.clear();
+                }
                 getStudentClass();
 
             }
@@ -140,10 +145,16 @@ public class publishNoticeActivity extends AppCompatActivity {
             public void done(List<StudentClass> object, BmobException e) {
                 if (e == null) {
                     if (object.size() != 0) {
-                        studentClassList.addAll(object);
-//                        for (StudentClass studentclass : object) {
-//                            teacherClassList.add(studentclass.getClassNo());
-//                        }
+                        for (StudentClass studentclass : object) {
+                            String classNo = studentclass.getClassNo();
+                            for (StudentClass studentClass2 : studentClassList)
+                                if (classNo.equals(studentClass2.getClassNo())) {
+                                    studentClassList.remove(studentClass2);//去掉重复班级
+                                }
+
+                        }
+                        studentClassList.addAll(object);//得到所有班号了
+
                         showDialog();
                     }
 
@@ -181,8 +192,7 @@ public class publishNoticeActivity extends AppCompatActivity {
                             if (!classString.contains(studentclass.getClassNo()))
                                 classString = classString + studentclass.getClassNo() + ";";
                         visibleClassText.setText(classString);
-                        if (studentClassList != null)
-                            studentClassList.clear();
+
                     }
                 })
                 .setNegativeButton("取消", null).show();

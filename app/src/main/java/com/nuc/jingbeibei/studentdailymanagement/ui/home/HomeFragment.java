@@ -25,18 +25,18 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 
 public class HomeFragment extends Fragment {
-//终于成功了...
+    //终于成功了...
     private SharedPreferences pref;
     private Button idClassManagementBtn;
     private String objectId = "";
     private boolean isTeacher = false;
     private BmobObject object;
-    private boolean isCounselor=false;
+    private boolean isCounselor = false;
     private Button idClassCounselorBtn;
     private Button idNoticeBtn;
-   private Button idAddressBookBtn;
+    private Button idAddressBookBtn;
     private Button idAskForLeaveBtn;
-
+    private Button idSignBtn;
 
 
     @Override
@@ -65,10 +65,11 @@ public class HomeFragment extends Fragment {
 
     private void initView(View view) {
         idClassManagementBtn = (Button) view.findViewById(R.id.id_class_management_btn);
-        idClassCounselorBtn= (Button) view.findViewById(R.id.id_class_counselor_btn);
-        idNoticeBtn= (Button) view.findViewById(R.id.id_notice_btn);
-        idAddressBookBtn= (Button) view.findViewById(R.id.id_address_book_btn);
-        idAskForLeaveBtn= (Button) view.findViewById(R.id.id_ask_for_leave_btn);
+        idClassCounselorBtn = (Button) view.findViewById(R.id.id_class_counselor_btn);
+        idNoticeBtn = (Button) view.findViewById(R.id.id_notice_btn);
+        idAddressBookBtn = (Button) view.findViewById(R.id.id_address_book_btn);
+        idAskForLeaveBtn = (Button) view.findViewById(R.id.id_ask_for_leave_btn);
+        idSignBtn= (Button) view.findViewById(R.id.id_sign_btn);
     }
 
     private void initEvent() {
@@ -82,11 +83,11 @@ public class HomeFragment extends Fragment {
         idClassCounselorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isCounselor){
+                if (isCounselor) {
 //                    IntentUtils.doIntent(getActivity(), ClassManageActivity.class);
                     IntentUtils.doIntentWithObject(getActivity(), ClassCounselorActivity.class, "object", object);
-                }else {
-                    ToastUtils.toast(getActivity(),"您还不是辅导员，暂时无法使用此功能");
+                } else {
+                    ToastUtils.toast(getActivity(), "您还不是辅导员，暂时无法使用此功能");
                 }
             }
         });
@@ -105,11 +106,17 @@ public class HomeFragment extends Fragment {
         idAskForLeaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isTeacher){
-                    IntentUtils.doIntentWithObject(getActivity(),AskLeaveRecordListActivity.class,"object",object);
-                }else {
-                    IntentUtils.doIntentWithObject(getActivity(),AskForLeaveActivity.class,"object",object);
+                if (isTeacher) {
+                    IntentUtils.doIntentWithObject(getActivity(), AskLeaveRecordListActivity.class, "object", object);
+                } else {
+                    IntentUtils.doIntentWithObject(getActivity(), AskForLeaveActivity.class, "object", object);
                 }
+            }
+        });
+        idSignBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.doIntentWithObject(getActivity(),PublishSignActivity.class,"object",object);
             }
         });
     }
@@ -122,7 +129,7 @@ public class HomeFragment extends Fragment {
             public void done(Teacher object1, BmobException e) {
                 if (e == null) {
                     object = object1;
-                    isCounselor=object1.getIsCounselor();
+                    isCounselor = object1.getIsCounselor();
                 } else {
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
                 }

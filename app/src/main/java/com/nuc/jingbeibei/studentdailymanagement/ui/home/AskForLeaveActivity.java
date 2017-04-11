@@ -29,7 +29,7 @@ public class AskForLeaveActivity extends AppCompatActivity {
     private Button leaveCommitBtn;
     private Student student;
     private Button leaveRecordBtn;
-
+//伪更新
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -19,6 +19,12 @@ android {
     }
 //    **兼容Android6.0系统所需，如果这句话报错，可在dependencies标签下使用compile 'cn.bmob.android:http-legacy:1.0'**
     useLibrary 'org.apache.http.legacy'
+//    packagingOptions {
+//        exclude 'assets/CYAN2d.png'
+//        exclude'assets/location_pressed2d.png'
+//        exclude 'assets/GREEN2d.png'
+//
+//    }
 }
 
 dependencies {

@@ -1,18 +1,29 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui.home;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bigkoo.pickerview.TimePickerView;
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.beans.SignType;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
+import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,14 +33,26 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class PublishSignActivity extends AppCompatActivity {
     private TextView teacherNameTV, startTimeTV, endTimeTV, selectClassTV, myPlaceTV;
     private EditText signtitleET;
+    private Button publishSignBtn;
     private Teacher teacher;
+    private Double latitude;//纬度
+    private Double longitude;//经度
+    private String location;//位置
     private List<StudentClass> netStudentClassList = new ArrayList<StudentClass>();
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +66,34 @@ public class PublishSignActivity extends AppCompatActivity {
         myPlaceTV = (TextView) findViewById(R.id.id_myplace_text);
         signtitleET = (EditText) findViewById(R.id.id_sign_title_edit);
         teacherNameTV.setText(teacher.getRealName());
+        publishSignBtn= (Button) findViewById(R.id.id_publish_sign_btn);
+//初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
 
+//初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //获取一次定位结果：
+//该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+//关闭缓存机制
+        mLocationOption.setLocationCacheEnable(false);
+//获取最近3s内精度最高的一次定位结果：
+//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        if (ContextCompat.checkSelfPermission(PublishSignActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(PublishSignActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);//自定义的code
+        } else {
+            //启动定位
+            mLocationClient.startLocation();
+        }
         initEvent();
     }
 
@@ -87,6 +137,81 @@ public class PublishSignActivity extends AppCompatActivity {
                 queryClasstOfTeacher();
             }
         });
+        myPlaceTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(PublishSignActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    //申请WRITE_EXTERNAL_STORAGE权限
+                    ActivityCompat.requestPermissions(PublishSignActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                            1);//自定义的code
+                } else {
+                    //启动定位
+                    mLocationClient.startLocation();
+                }
+            }
+        });
+        publishSignBtn.setOnClickListener(new View.OnClickListener() {//提交签到
+            @Override
+            public void onClick(View v) {
+                String title=signtitleET.getText().toString();
+                String endTime=endTimeTV.getText().toString();
+                String startTime=startTimeTV.getText().toString();
+                String visibleClass=selectClassTV.getText().toString();
+                if(title.equals("")||endTime.equals("")||startTime.equals("")||visibleClass.equals("")){
+                    ToastUtils.toast(PublishSignActivity.this,"信息不完整，请检查");
+                }{
+                    SignType signType=new SignType();
+                    signType.setPublisher(teacher);
+                    signType.setEndTime(endTime);
+                    signType.setStartTime(startTime);
+                    signType.setTitle(title);
+                    BmobRelation relation = new BmobRelation();
+                    for (StudentClass studentClass:netStudentClassList){
+                        relation.add(studentClass);
+                    }
+                    signType.setLatitude(latitude);
+                    signType.setLongitude(longitude);
+                    signType.setLocation(location);
+                    signType.setVisibleClass(relation);
+                    signType.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if(e==null){
+                                ToastUtils.toast(PublishSignActivity.this,"发布成功！");
+                            }else{
+                                ToastUtils.toast(PublishSignActivity.this,"发布失败！"+e.getMessage());
+
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
+        //设置定位回调监听
+        mLocationClient.setLocationListener(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    if (aMapLocation.getErrorCode() == 0) {
+//可在其中解析amapLocation获取相应内容。
+                        latitude = aMapLocation.getLatitude();//获取纬度
+                        longitude=aMapLocation.getLongitude();//获取经度
+                        float s = aMapLocation.getAccuracy();//获取精度信息
+                        location= aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                        myPlaceTV.setText(location);
+                    } else {
+                        //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                        Log.e("AmapError", "location Error, ErrCode:"
+                                + aMapLocation.getErrorCode() + ", errInfo:"
+                                + aMapLocation.getErrorInfo());
+                    }
+                }
+            }
+        });
+
     }
 
     private String getTime(Date date) {//可根据需要自行截取数据显示
@@ -184,6 +309,15 @@ public class PublishSignActivity extends AppCompatActivity {
                 .setNegativeButton("取消", null).show();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //可在此继续其他操作。
+        //启动定位
+        if (requestCode == 1) {
+            mLocationClient.startLocation();
+        }
+    }
 
 }
 

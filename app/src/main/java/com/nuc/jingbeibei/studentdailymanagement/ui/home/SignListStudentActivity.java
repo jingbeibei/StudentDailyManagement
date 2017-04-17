@@ -31,7 +31,7 @@ import cn.bmob.v3.listener.FindListener;
 public class SignListStudentActivity extends AppCompatActivity {
     private XRecyclerView mRecyclerView;
     private Student student;
-
+//
 
     private static final int STATE_REFRESH = 0;// 下拉刷新
     private static final int STATE_MORE = 1;// 加载更多

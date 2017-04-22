@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
     private Button idAddressBookBtn;
     private Button idAskForLeaveBtn;
     private Button idSignBtn;
+    private Button idstudentSignBtn;
 
 
     @Override
@@ -70,6 +71,7 @@ public class HomeFragment extends Fragment {
         idAddressBookBtn = (Button) view.findViewById(R.id.id_address_book_btn);
         idAskForLeaveBtn = (Button) view.findViewById(R.id.id_ask_for_leave_btn);
         idSignBtn= (Button) view.findViewById(R.id.id_sign_btn);
+        idstudentSignBtn= (Button) view.findViewById(R.id.id_student_sign_btn);
     }
 
     private void initEvent() {
@@ -117,6 +119,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 IntentUtils.doIntentWithObject(getActivity(),PublishSignActivity.class,"object",object);
+            }
+        });
+        idstudentSignBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.doIntentWithObject(getActivity(),SignListStudentActivity.class,"object",object);
             }
         });
     }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="100dp">
+<TextView
+    android:id="@+id/sign_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="title"
+    android:textSize="@dimen/text_size"
+    />
+    <TextView
+        android:id="@+id/sign_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="未完成"
+        android:textColor="@color/red"
+        />
+
+</LinearLayout>

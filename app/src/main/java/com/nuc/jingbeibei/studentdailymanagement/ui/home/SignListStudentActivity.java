@@ -43,6 +43,7 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     private String studentClassId = "";
 
 
+
     private static final int STATE_REFRESH = 0;// 下拉刷新
     private static final int STATE_MORE = 1;// 加载更多
 

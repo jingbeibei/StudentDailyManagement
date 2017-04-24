@@ -40,7 +40,7 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     private Student student;
     private SignRecordAdapter mAdapter;
     private ArrayList<SignType> signTypes;
-    private String studentClassId="";
+    private String studentClassId = "";
 
 
     private static final int STATE_REFRESH = 0;// 下拉刷新
@@ -54,13 +54,13 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_sign_list);
-       student= (Student) getIntent().getSerializableExtra("object");
-studentClassId=student.getStudentClass().getObjectId();
+        student = (Student) getIntent().getSerializableExtra("object");
+        studentClassId = student.getStudentClass().getObjectId();
         signTypes = new ArrayList<>();
-        mAdapter=new SignRecordAdapter(signTypes);
+        mAdapter = new SignRecordAdapter(signTypes);
         mAdapter.setListener(this);
 
-        mRecyclerView= (XRecyclerView) findViewById(R.id.sing_list_recyclerview);
+        mRecyclerView = (XRecyclerView) findViewById(R.id.sing_list_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -124,7 +124,7 @@ studentClassId=student.getStudentClass().getObjectId();
                             // 获取最后时间
                             lastTime = list.get(list.size() - 1).getCreatedAt();
                         }
-                        for (final SignType signType:list){//遍历每条记录
+                        for (final SignType signType : list) {//遍历每条记录
 //                            signType.getVisibleClass().getObjects();
 //                            int size=signType.getVisibleClass().getObjects().size();//得到一条记录中的班级数量
 //                            for(int i=0;i<size;i++)
@@ -137,17 +137,17 @@ studentClassId=student.getStudentClass().getObjectId();
                             query.findObjects(new FindListener<StudentClass>() {
 
                                 @Override
-                                public void done(List<StudentClass> studentClasses,BmobException e) {
-                                    if(e==null){
-                                        for(StudentClass studentClass:studentClasses ){
-                                            if(studentClass.getObjectId().equals(studentClassId)){
+                                public void done(List<StudentClass> studentClasses, BmobException e) {
+                                    if (e == null) {
+                                        for (StudentClass studentClass : studentClasses) {
+                                            if (studentClass.getObjectId().equals(studentClassId)) {
                                                 signTypes.add(signType);
                                                 break;
                                             }
                                         }
 //                                        Log.i("bmob","查询个数："+object.size());
-                                    }else{
-                                        Log.i("bmob","失败："+e.getMessage());
+                                    } else {
+                                        Log.i("bmob", "失败：" + e.getMessage());
                                     }
                                 }
 

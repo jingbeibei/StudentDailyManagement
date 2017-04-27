@@ -1,5 +1,6 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui.home;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,9 +41,6 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     private Student student;
     private SignRecordAdapter mAdapter;
     private ArrayList<SignType> signTypes;
-    private String studentClassId = "";
-
-
 
     private static final int STATE_REFRESH = 0;// 下拉刷新
     private static final int STATE_MORE = 1;// 加载更多
@@ -50,14 +48,18 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     private int curPage = 0;        // 当前页的编号，从0开始
     private String lastTime;
     private int count = 10;// 每页的数据是10条
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getData(0,STATE_REFRESH);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_sign_list);
         student = (Student) getIntent().getSerializableExtra("object");
-        studentClassId = student.getStudentClass().getObjectId();
         signTypes = new ArrayList<>();
+
         mAdapter = new SignRecordAdapter(signTypes);
         mAdapter.setListener(this);
 
@@ -71,7 +73,6 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
         mRecyclerView.setArrowImageView(R.mipmap.banner_error);
 
         mRecyclerView.refresh();
-
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -86,12 +87,13 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     }
 
     private void getData(int page, final int actionType) {
+        String[] ids={student.getStudentClass().getObjectId()};
         BmobQuery<SignType> query = new BmobQuery<>();
         query.include("publisher");
         query.include("visibleClass");
         // 按时间降序查询
         query.order("-createdAt");
-//        query.addWhereContainsAll("visibleClass", Arrays.asList(student.getStudentClass()));
+        query.addWhereContainsAll("visibleClass", Arrays.asList(ids));
         // 如果是加载更多
         if (actionType == STATE_MORE) {
             // 处理时间查询
@@ -125,35 +127,7 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
                             // 获取最后时间
                             lastTime = list.get(list.size() - 1).getCreatedAt();
                         }
-                        for (final SignType signType : list) {//遍历每条记录
-//                            signType.getVisibleClass().getObjects();
-//                            int size=signType.getVisibleClass().getObjects().size();//得到一条记录中的班级数量
-//                            for(int i=0;i<size;i++)
-//                            if( signType.getVisibleClass().getObjects().get(i).getObjectId().equals(student.getStudentClass().getObjectId())){
-//                                signTypes.add(signType);
-//                                break;
-//                            }
-                            BmobQuery<StudentClass> query = new BmobQuery<StudentClass>();
-                            query.addWhereRelatedTo("visibleClass", new BmobPointer(signType));
-                            query.findObjects(new FindListener<StudentClass>() {
 
-                                @Override
-                                public void done(List<StudentClass> studentClasses, BmobException e) {
-                                    if (e == null) {
-                                        for (StudentClass studentClass : studentClasses) {
-                                            if (studentClass.getObjectId().equals(studentClassId)) {
-                                                signTypes.add(signType);
-                                                break;
-                                            }
-                                        }
-//                                        Log.i("bmob","查询个数："+object.size());
-                                    } else {
-                                        Log.i("bmob", "失败：" + e.getMessage());
-                                    }
-                                }
-
-                            });
-                        }
 
                         signTypes.addAll(list);
                         // 这里在每次加载完数据后，将当前页码+1，这样在上拉刷新的onPullUpToRefresh方法中就不需要操作curPage了
@@ -187,6 +161,9 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     @Override
     public void onItemClick(View view, int postion) {
         Toast.makeText(this, "我是第" + postion + "项", Toast.LENGTH_SHORT).show();
-//        IntentUtils.doIntentWithObject(NoticeActivity.this,NoticeDetailsActivity.class,"notice",noticeList.get(postion-1));
+        Intent intent=new Intent(SignListStudentActivity.this,SignStudentDetailsActivity.class);
+        intent.putExtra("signType",signTypes.get(postion-1));
+        intent.putExtra("student",student);
+        startActivity(intent);
     }
 }

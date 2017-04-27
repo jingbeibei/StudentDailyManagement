@@ -6,7 +6,7 @@ import cn.bmob.v3.BmobObject;
  * Created by jingbeibei on 2017/3/15.
  */
 
-public class SignRecord extends BmobObject{//学生的签到记录表
+public class SignRecord extends BmobObject {//学生的签到记录表
     private Student student;//学生
     private SignType signType;//签到类型
     private String signTime;//签到时间
@@ -14,6 +14,15 @@ public class SignRecord extends BmobObject{//学生的签到记录表
     private Double longitude;//经度
     private String location;//位置
     private Integer isSuccess;//签到是否成功 1：成功   0：失败
+    private float distance;//距离
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
 
     public Student getStudent() {
         return student;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.SignStudentDetailsActivity">
+<TextView
+    android:id="@+id/id_sign_title_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="标题"
+    />
+    <TextView
+        android:id="@+id/id_sign_publisher_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发起签到时间："
+        />
+    <TextView
+        android:id="@+id/id_sign_start_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="签到结束时间："
+        />
+    <TextView
+        android:id="@+id/id_sign_end_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/id_sign_publisher_adress_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/id_sign_student_address_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/id_sign_student_time_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/id_sign_is_success_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/id_sign_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="签到"
+        />
+</LinearLayout>

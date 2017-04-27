@@ -42,11 +42,12 @@ public class SignRecordAdapter extends RecyclerView.Adapter<SignRecordAdapter.Vi
     @Override
     public void onBindViewHolder(SignRecordAdapter.ViewHolder holder, int position) {
         holder.signTileTV.setText(datas.get(position).getTitle());
+        System.out.println("---------------标题--------"+datas.get(position).getTitle());
         try {
-         if(new Date().after(sdf.parse(datas.get(position).getEndTime()))){
-             holder.stateTV.setText("已完成");
-         }{
-                holder.stateTV.setText("未完成");
+         if(new Date().before(sdf.parse(datas.get(position).getEndTime()))){//当前时间在结束时间之前
+             holder.stateTV.setText("未完成");
+         }else {
+                holder.stateTV.setText("已完成");
             }
 
         } catch (ParseException e) {
@@ -57,7 +58,7 @@ public class SignRecordAdapter extends RecyclerView.Adapter<SignRecordAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return 0;
+        return datas.size();
     }
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

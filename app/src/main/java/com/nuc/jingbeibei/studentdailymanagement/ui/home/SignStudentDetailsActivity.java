@@ -26,14 +26,18 @@ import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class SignStudentDetailsActivity extends AppCompatActivity {
     private SignType signType;
     private Student student;
-    private TextView titleTV, startTV, endTV, publisherAddressTV, studentAddressTV, signTimeTV,isSuccessTV,publisherTV;
+    private TextView titleTV, startTV, endTV, publisherAddressTV, studentAddressTV, signTimeTV, isSuccessTV, publisherTV;
     private Button signBtn;
     private Double latitude;//纬度
     private Double longitude;//经度
@@ -42,15 +46,16 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
     public AMapLocationClient mLocationClient = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
-    SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private boolean isOverTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_student_details);
         signType = (SignType) getIntent().getSerializableExtra("signType");
-        student= (Student) getIntent().getSerializableExtra("student");
-
+        student = (Student) getIntent().getSerializableExtra("student");
+        getSignRecordOfStudent();
         mLocationClient = new AMapLocationClient(getApplicationContext());
         mLocationOption = new AMapLocationClientOption();
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -85,8 +90,8 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
         studentAddressTV = (TextView) findViewById(R.id.id_sign_student_address_text);
         signTimeTV = (TextView) findViewById(R.id.id_sign_student_time_text);
         signBtn = (Button) findViewById(R.id.id_sign_btn);
-        isSuccessTV= (TextView) findViewById(R.id.id_sign_is_success_text);
-        publisherTV= (TextView) findViewById(R.id.id_sign_publisher_text);
+        isSuccessTV = (TextView) findViewById(R.id.id_sign_is_success_text);
+        publisherTV = (TextView) findViewById(R.id.id_sign_publisher_text);
 
         titleTV.setText(signType.getTitle());
         startTV.setText(signType.getStartTime());
@@ -101,31 +106,30 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
                     if (aMapLocation.getErrorCode() == 0) {
 //可在其中解析amapLocation获取相应内容。
                         latitude = aMapLocation.getLatitude();//获取纬度
-                        longitude=aMapLocation.getLongitude();//获取经度
+                        longitude = aMapLocation.getLongitude();//获取经度
                         float s = aMapLocation.getAccuracy();//获取精度信息
-                        location= aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                        location = aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
                         studentAddressTV.setText(location);
-                        try {
-                            if(new Date().after(sdf.parse(signType.getEndTime()))){
-                                CoordinateConverter coordinate=new CoordinateConverter(SignStudentDetailsActivity.this);
-                             float distance=   coordinate.calculateLineDistance(new DPoint(latitude,longitude),new DPoint(signType.getLatitude(),signType.getLongitude()));
-                                if(distance>(float)30.0){//距离大于30米 签到失败
-                                    saveSignRecord(0,distance);
-                                }else {
-                                    saveSignRecord(1,distance);
-                                }
-                            }else {
-                                ToastUtils.toast(SignStudentDetailsActivity.this,"签到已过期");
-                                saveSignRecord(0, (float) 0.0);
+
+                        if (isOverTime) {//当前时间在结束时间之前
+                            CoordinateConverter coordinate = new CoordinateConverter(SignStudentDetailsActivity.this);
+                            float distance = coordinate.calculateLineDistance(new DPoint(latitude, longitude), new DPoint(signType.getLatitude(), signType.getLongitude()));
+                            if (distance > (float) 30.0) {//距离大于30米 签到失败
+                                saveSignRecord(0, distance);
+                            } else {
+                                saveSignRecord(1, distance);
                             }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        } else {
+                            ToastUtils.toast(SignStudentDetailsActivity.this, "签到已过期");
+                            saveSignRecord(0, (float) 0.0);
                         }
 
                     } else {
                         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                         Log.e("AmapError", "location Error, ErrCode:"
                                 + aMapLocation.getErrorCode() + ", errInfo:"
+                                + aMapLocation.getErrorInfo());
+                        ToastUtils.toast(SignStudentDetailsActivity.this, "定位失败：" + aMapLocation.getErrorCode() + ", errInfo:"
                                 + aMapLocation.getErrorInfo());
                     }
 
@@ -144,8 +148,8 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void saveSignRecord(final int issuccess, float distance){//保存学生签到记录
-        SignRecord signRecord=new SignRecord();
+    private void saveSignRecord(final int issuccess, float distance) {//保存学生签到记录
+        SignRecord signRecord = new SignRecord();
         signRecord.setLocation(location);
         signRecord.setSignType(signType);
         signRecord.setStudent(student);
@@ -157,12 +161,47 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
         signRecord.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
-                    if (e==null){
-                        ToastUtils.toast(SignStudentDetailsActivity.this,"签到成功");
-                        signBtn.setVisibility(View.GONE);
-                        isSuccessTV.setText(issuccess==0?"签到失败":"签到成功");
-                        studentAddressTV.setText(location);
+                if (e == null) {
+                    ToastUtils.toast(SignStudentDetailsActivity.this, "签到成功");
+                    signTimeTV.setText(sdf.format(new Date()));
+                    signBtn.setVisibility(View.GONE);
+                    isSuccessTV.setText(issuccess == 0 ? "签到失败" : "签到成功");
+                    studentAddressTV.setText(location);
+                }
+            }
+        });
+    }
+
+    private void getSignRecordOfStudent() {
+        BmobQuery<SignRecord> query = new BmobQuery<SignRecord>();
+        query.addWhereEqualTo("signType", new BmobPointer(signType));
+        query.addWhereEqualTo("student", new BmobPointer(student));
+        query.findObjects(new FindListener<SignRecord>() {
+            @Override
+            public void done(List<SignRecord> list, BmobException e) {
+                if (e == null) {
+                    try {
+                        isOverTime = new Date().before(sdf.parse(signType.getEndTime()));//当前时间在结束时间之前
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
                     }
+                    if (list.size() == 0) {//没有记录显示签到按钮
+                        if (isOverTime) {
+                            signBtn.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        studentAddressTV.setText(list.get(0).getLocation());
+                        signTimeTV.setText(list.get(0).getSignTime());
+                        if (list.get(0).getIsSuccess() == 1) {
+                            isSuccessTV.setText("签到成功");
+                        } else {
+                            isSuccessTV.setText("签到失败");
+                        }
+
+                    }
+
+                }
             }
         });
     }

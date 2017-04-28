@@ -67,7 +67,9 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".ui.home.SignListStudentActivity" />
-        <activity android:name=".ui.home.SignStudentDetailsActivity"></activity>
+        <activity android:name=".ui.home.SignStudentDetailsActivity" />
+        <activity android:name=".ui.home.SignListTeacherActivity" />
+        <activity android:name=".ui.home.SignTeacherDetailsActivity"></activity>
     </application>
 
 </manifest>

@@ -52,10 +52,12 @@
         android:id="@+id/id_sign_is_success_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/id_sign_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="签到"
         />
 </LinearLayout>

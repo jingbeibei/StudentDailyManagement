@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.beans.SignRecord;
 import com.nuc.jingbeibei.studentdailymanagement.beans.SignType;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
@@ -12,20 +13,24 @@ import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SQLQueryListener;
 
 public class SignTeacherDetailsActivity extends AppCompatActivity {
     private SignType signType;
+    private String s="select * from signRecord where typeid=xxx";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_teacher_details);
     }
-    private void getStudentOfSign(){//的到签到对应的所有学生
+    private void getStudentOfSign(){//得到签到对应的所有学生
         BmobQuery<StudentClass> query = new BmobQuery<StudentClass>();
         query.addWhereRelatedTo("visibleClass", new BmobPointer(signType));
         query.findObjects(new FindListener<StudentClass>() {
@@ -61,4 +66,47 @@ public class SignTeacherDetailsActivity extends AppCompatActivity {
             }
         });
     }
+    private void getStudentOfSignSuccess(){//查询本次签到成功的所有记录
+        BmobQuery<SignRecord> query=new BmobQuery<>();
+        query.addWhereEqualTo("signType",new BmobPointer(signType));
+        query.addWhereEqualTo("isSuccess" ,1);
+        query.findObjects(new FindListener<SignRecord>() {
+            @Override
+            public void done(List<SignRecord> list, BmobException e) {
+
+            }
+        });
+    }
+
+    private void getStudentOfSignFail(){//查询本次签到失败的所有记录
+        BmobQuery<SignRecord> query=new BmobQuery<>();
+        query.addWhereEqualTo("signType",new BmobPointer(signType));
+        query.addWhereEqualTo("isSuccess" ,1);
+        query.findObjects(new FindListener<SignRecord>() {
+            @Override
+            public void done(List<SignRecord> list, BmobException e) {
+
+            }
+        });
+    }
+    private void getStudentOfUnsign(){//查询未签到学生
+        String bql ="select * from Student where ObjectId not in (select include student.ObjectId from SignRecord where related signType to pointer('signType', '"+signType.getObjectId()+"') )";
+        new BmobQuery<Student>().doSQLQuery(bql,new SQLQueryListener<Student>(){
+
+            @Override
+            public void done(BmobQueryResult<Student> result, BmobException e) {
+                if(e ==null){
+                    List<Student> list = (List<Student>) result.getResults();
+                    if(list!=null && list.size()>0){
+
+                    }else{
+                        Log.i("smile", "查询成功，无数据返回");
+                    }
+                }else{
+                    Log.i("smile", "错误码："+e.getErrorCode()+"，错误描述："+e.getMessage());
+                }
+            }
+        });
+    }
+
 }

@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.publishNoticeActivity">
+    <include layout="@layout/toolbar_mybar"></include>
 <EditText
     android:id="@+id/id_notice_title_edit"
     android:layout_width="match_parent"

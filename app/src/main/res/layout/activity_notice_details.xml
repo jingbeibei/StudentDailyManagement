@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.NoticeDetailsActivity">
-
+    <include layout="@layout/toolbar_mybar"></include>
     <TextView
         android:id="@+id/id_notice_title_text"
         android:layout_width="match_parent"

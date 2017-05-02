@@ -5,12 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.LeaveRecordAdapter;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.MyItemClickListener;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.LeaveRecord;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Notice;
 import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
@@ -34,6 +37,8 @@ import static java.security.AccessController.getContext;
 public class AskLeaveRecordListActivity extends AppCompatActivity implements MyItemClickListener {
     private SharedPreferences pref;
     private boolean isTeacher = false;
+    private TextView BarTitle;
+    private ImageView BackImage;
     private BmobObject object;
     private XRecyclerView mRecyclerView;
     private LeaveRecordAdapter mAdapter;
@@ -51,10 +56,13 @@ public class AskLeaveRecordListActivity extends AppCompatActivity implements MyI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_leave_record_list);
+        ActivityCollector.addActivity(this);
         pref = getSharedPreferences("data", MODE_PRIVATE);
         isTeacher = pref.getBoolean("isTeacher", false);
         object = (BmobObject) getIntent().getSerializableExtra("object");
-
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarTitle.setText("请假记录");
         mAdapter = new LeaveRecordAdapter(records);
         mAdapter.setListener(this);
         mRecyclerView = (XRecyclerView) findViewById(R.id.leave_record_recyclerview);
@@ -77,6 +85,12 @@ public class AskLeaveRecordListActivity extends AppCompatActivity implements MyI
             @Override
             public void onLoadMore() {
                 getData(curPage, STATE_MORE);
+            }
+        });
+        BackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(AskLeaveRecordListActivity.this);
             }
         });
     }

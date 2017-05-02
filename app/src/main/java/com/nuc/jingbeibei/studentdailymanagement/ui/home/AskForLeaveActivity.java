@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.LeaveRecord;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
@@ -28,13 +30,16 @@ public class AskForLeaveActivity extends AppCompatActivity {
     private EditText leaveReasonEdit, parentNameEdit, parentTelephoneNoEdit, homeAddressEdit;
     private Button leaveCommitBtn;
     private Student student;
-    private Button leaveRecordBtn;
-//伪更新
+    private TextView BarTitle;
+    private ImageView BackImage;
+    private TextView BarRight;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_for_leave);
+        ActivityCollector.addActivity(this);
         student = (Student) getIntent().getSerializableExtra("object");
 
         initView();
@@ -42,6 +47,13 @@ public class AskForLeaveActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarTitle.setText("请假");
+        BarRight= (TextView) findViewById(R.id.bar_right_tv);
+        BarRight.setText("记录");
+        BarRight.setVisibility(View.VISIBLE);
+
         studentNameTV = (TextView) findViewById(R.id.id_student_name_text);
         startTimeTV = (TextView) findViewById(R.id.id_leave_start_time_text);
         endTimeTv = (TextView) findViewById(R.id.id_leave_end_time_text);
@@ -51,7 +63,6 @@ public class AskForLeaveActivity extends AppCompatActivity {
         parentTelephoneNoEdit = (EditText) findViewById(R.id.id_parent_telephoneNo_edit);
         homeAddressEdit = (EditText) findViewById(R.id.id_home_address_edit);
         leaveCommitBtn = (Button) findViewById(R.id.id_ask_for_leave_commit_btn);
-        leaveRecordBtn= (Button) findViewById(R.id.id_leave_record_btn);
 
         studentNameTV.setText(student.getRealName());
         counselorNameTV.setText(student.getStudentClass().getCounselor().getRealName());
@@ -114,10 +125,16 @@ public class AskForLeaveActivity extends AppCompatActivity {
             }
         });
 
-        leaveRecordBtn.setOnClickListener(new View.OnClickListener() {
+       BarRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IntentUtils.doIntentWithObject(AskForLeaveActivity.this,AskLeaveRecordListActivity.class,"object",student);
+            }
+        });
+        BackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(AskForLeaveActivity.this);
             }
         });
     }

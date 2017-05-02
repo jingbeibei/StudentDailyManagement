@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.AskLeaveRecordListActivity">
+
+    <include layout="@layout/toolbar_mybar"></include>
+
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/leave_record_recyclerview"
         android:layout_width="fill_parent"

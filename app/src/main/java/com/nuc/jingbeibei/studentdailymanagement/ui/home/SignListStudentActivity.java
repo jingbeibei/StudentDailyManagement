@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
@@ -14,6 +16,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.MyItemClickListener;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.SignRecordAdapter;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.LeaveRecord;
 import com.nuc.jingbeibei.studentdailymanagement.beans.SignType;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
@@ -41,6 +44,8 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     private Student student;
     private SignRecordAdapter mAdapter;
     private ArrayList<SignType> signTypes;
+    private TextView BarTitle;
+    private ImageView BackImage;
 
     private static final int STATE_REFRESH = 0;// 下拉刷新
     private static final int STATE_MORE = 1;// 加载更多
@@ -57,9 +62,19 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_sign_list);
+        ActivityCollector.addActivity(this);
         student = (Student) getIntent().getSerializableExtra("object");
         signTypes = new ArrayList<>();
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarTitle.setText("签到");
 
+        BackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(SignListStudentActivity.this);
+            }
+        });
         mAdapter = new SignRecordAdapter(signTypes);
         mAdapter.setListener(this);
 

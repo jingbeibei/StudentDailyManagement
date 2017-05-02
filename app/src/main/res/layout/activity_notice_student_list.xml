@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.SignListTeacherActivity">
+    tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.NoticeStudentListActivity">
+
     <include layout="@layout/toolbar_mybar"></include>
+
     <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/sing_list_recyclerview"
+        android:id="@+id/notice_recyclerview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 </LinearLayout>

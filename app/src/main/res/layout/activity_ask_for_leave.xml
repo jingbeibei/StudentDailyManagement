@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.AskForLeaveActivity">
+    <include layout="@layout/toolbar_mybar"></include>
 <TextView
     android:id="@+id/id_student_name_text"
     android:layout_width="match_parent"
@@ -63,11 +64,5 @@
         android:layout_gravity="center"
         android:text="请假"
         />
-    <Button
-        android:id="@+id/id_leave_record_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="请假记录"
-        />
+
 </LinearLayout>

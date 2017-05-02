@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -20,9 +21,11 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bigkoo.pickerview.TimePickerView;
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.SignType;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
+import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
 import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
@@ -41,8 +44,11 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class PublishSignActivity extends AppCompatActivity {
     private TextView teacherNameTV, startTimeTV, endTimeTV, selectClassTV, myPlaceTV;
+    private TextView PublishSignRecordBtn;
     private EditText signtitleET;
     private Button publishSignBtn;
+    private TextView BarTitle;
+    private ImageView BackImage;
     private Teacher teacher;
     private Double latitude;//纬度
     private Double longitude;//经度
@@ -58,6 +64,7 @@ public class PublishSignActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_sign);
+        ActivityCollector.addActivity(this);
         teacher = (Teacher) getIntent().getSerializableExtra("object");
         teacherNameTV = (TextView) findViewById(R.id.id_teacher_name_text);
         startTimeTV = (TextView) findViewById(R.id.id_leave_start_time_text);
@@ -67,6 +74,17 @@ public class PublishSignActivity extends AppCompatActivity {
         signtitleET = (EditText) findViewById(R.id.id_sign_title_edit);
         teacherNameTV.setText(teacher.getRealName());
         publishSignBtn= (Button) findViewById(R.id.id_publish_sign_btn);
+        PublishSignRecordBtn= (TextView) findViewById(R.id.id_publish_sign_record_btn);
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarTitle.setText("发布签到");
+
+        BackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(PublishSignActivity.this);
+            }
+        });
 //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
 
@@ -149,6 +167,12 @@ public class PublishSignActivity extends AppCompatActivity {
                     //启动定位
                     mLocationClient.startLocation();
                 }
+            }
+        });
+        PublishSignRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.doIntentWithObject(PublishSignActivity.this,SignListTeacherActivity.class,"object",teacher);
             }
         });
         publishSignBtn.setOnClickListener(new View.OnClickListener() {//提交签到

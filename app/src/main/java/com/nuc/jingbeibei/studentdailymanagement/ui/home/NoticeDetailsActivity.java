@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Notice;
 import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
@@ -24,13 +26,16 @@ public class NoticeDetailsActivity extends AppCompatActivity {
     private Button deleteNoticeBtn;
     private SharedPreferences pref;
     private boolean isTeacher;
+    private TextView BarTitle;
+    private ImageView BackImage;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_details);
-       notice = (Notice) getIntent().getSerializableExtra("notice");
+        ActivityCollector.addActivity(this);
+        notice = (Notice) getIntent().getSerializableExtra("notice");
         pref = getSharedPreferences("data", MODE_PRIVATE);
         isTeacher = pref.getBoolean("isTeacher", false);
         initView();
@@ -44,27 +49,36 @@ public class NoticeDetailsActivity extends AppCompatActivity {
                 notice.delete(new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
-                        if (e==null){
-                            ToastUtils.toast(NoticeDetailsActivity.this,"删除公告成功");
+                        if (e == null) {
+                            ToastUtils.toast(NoticeDetailsActivity.this, "删除公告成功");
                             finish();
-                        }else {
-                            ToastUtils.toast(NoticeDetailsActivity.this,"删除公告失败");
+                        } else {
+                            ToastUtils.toast(NoticeDetailsActivity.this, "删除公告失败");
                         }
                     }
                 });
             }
         });
+        BackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(NoticeDetailsActivity.this);
+            }
+        });
     }
 
     private void initView() {
-        noticeTitleTV= (TextView) findViewById(R.id.id_notice_title_text);
-        noticeContentTV= (TextView) findViewById(R.id.id_notice_content_text);
-        noticeReleaseTimeTV= (TextView) findViewById(R.id.id_notice_releaseTime_text);
-        noticePublisherTV= (TextView) findViewById(R.id.id_notice_publisher_text);
-        deleteNoticeBtn= (Button) findViewById(R.id.id_delect_notice_btn);
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarTitle.setText("通知详情");
+        noticeTitleTV = (TextView) findViewById(R.id.id_notice_title_text);
+        noticeContentTV = (TextView) findViewById(R.id.id_notice_content_text);
+        noticeReleaseTimeTV = (TextView) findViewById(R.id.id_notice_releaseTime_text);
+        noticePublisherTV = (TextView) findViewById(R.id.id_notice_publisher_text);
+        deleteNoticeBtn = (Button) findViewById(R.id.id_delect_notice_btn);
         if (isTeacher)
             deleteNoticeBtn.setVisibility(View.VISIBLE);
-        String title=notice.getTitle();
+        String title = notice.getTitle();
         noticeTitleTV.setText(title);
         noticeContentTV.setText(notice.getContent());
         noticeReleaseTimeTV.setText(notice.getReleaseTime());

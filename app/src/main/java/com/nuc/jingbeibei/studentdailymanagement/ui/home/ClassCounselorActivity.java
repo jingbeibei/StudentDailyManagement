@@ -13,9 +13,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.ClassAdapter;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
 import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
@@ -38,6 +41,9 @@ public class ClassCounselorActivity extends AppCompatActivity {
     private RecyclerView idClassManageRecycView;
     private LinearLayoutManager mLayoutManager;
     private Button idAddClassBtn;
+    private TextView BarTitle;
+    private ImageView BackImage;
+    private TextView BarRight;
     private ClassAdapter myAdapter;
     private List<StudentClass> myobject = new ArrayList<>();
     private ArrayList<String> allClassList = new ArrayList<String>();
@@ -49,6 +55,7 @@ public class ClassCounselorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_counselor);
+        ActivityCollector.addActivity(this);
         pref = getSharedPreferences("data", MODE_PRIVATE);
         objectId = pref.getString("objectid", "");
         bmobObject = (BmobObject) getIntent().getSerializableExtra("object");
@@ -59,7 +66,13 @@ public class ClassCounselorActivity extends AppCompatActivity {
 
 
     private void initView() {
-        idAddClassBtn = (Button) findViewById(R.id.id_add_class_btn);
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BarRight = (TextView) findViewById(R.id.bar_right_tv);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarRight.setText("添加");
+        BarRight.setVisibility(View.VISIBLE);
+        BarTitle.setText("班级管理");
+
         idClassManageRecycView = (RecyclerView) findViewById(R.id.id_class_manage_recycview);
         mLayoutManager = new LinearLayoutManager(this);//设置布局管理器,默认垂直
         idClassManageRecycView.setLayoutManager(mLayoutManager);
@@ -77,11 +90,16 @@ public class ClassCounselorActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
-        idAddClassBtn.setOnClickListener(new View.OnClickListener() {
+        BackImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ActivityCollector.removeActivity(ClassCounselorActivity.this);
+            }
+        });
+        BarRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 getAllClass();
-
             }
         });
     }

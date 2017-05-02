@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -18,6 +19,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.CoordinateConverter;
 import com.amap.api.location.DPoint;
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.SignRecord;
 import com.nuc.jingbeibei.studentdailymanagement.beans.SignType;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
@@ -39,6 +41,8 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
     private Student student;
     private TextView titleTV, startTV, endTV, publisherAddressTV, studentAddressTV, signTimeTV, isSuccessTV, publisherTV;
     private Button signBtn;
+    private TextView BarTitle;
+    private ImageView BackImage;
     private Double latitude;//纬度
     private Double longitude;//经度
     private String location;//位置
@@ -52,6 +56,7 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);
         setContentView(R.layout.activity_sign_student_details);
         signType = (SignType) getIntent().getSerializableExtra("signType");
         student = (Student) getIntent().getSerializableExtra("student");
@@ -83,6 +88,8 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
         titleTV = (TextView) findViewById(R.id.id_sign_title_text);
         startTV = (TextView) findViewById(R.id.id_sign_start_time_text);
         endTV = (TextView) findViewById(R.id.id_sign_end_time_text);
@@ -92,7 +99,14 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
         signBtn = (Button) findViewById(R.id.id_sign_btn);
         isSuccessTV = (TextView) findViewById(R.id.id_sign_is_success_text);
         publisherTV = (TextView) findViewById(R.id.id_sign_publisher_text);
+        BarTitle.setText("签到详情");
 
+        BackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(SignStudentDetailsActivity.this);
+            }
+        });
         titleTV.setText(signType.getTitle());
         startTV.setText(signType.getStartTime());
         endTV.setText(signType.getEndTime());
@@ -157,6 +171,7 @@ public class SignStudentDetailsActivity extends AppCompatActivity {
         signRecord.setLatitude(latitude);
         signRecord.setDistance(distance);
         signRecord.setIsSuccess(issuccess);
+        signRecord.setUserId(student.getUserId());
         signRecord.setSignTime(sdf.format(new Date()));
         signRecord.save(new SaveListener<String>() {
             @Override

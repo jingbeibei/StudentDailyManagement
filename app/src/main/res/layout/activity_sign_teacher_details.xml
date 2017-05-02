@@ -1,9 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.SignTeacherDetailsActivity">
+    <include layout="@layout/toolbar_mybar"></include>
+    <TextView
+        android:id="@+id/id_sign_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="标题" />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/id_sign_publisher_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发布人名字" />
+    <TextView
+        android:id="@+id/id_visible_class_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="班级"
+        />
+
+    <TextView
+        android:id="@+id/id_sign_start_time_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/id_sign_end_time_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/id_sign_publisher_adress_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/id_sign_is_complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/id_sign_success_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="成功"
+            />
+
+        <Button
+            android:id="@+id/id_sign_fail_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="失败"
+            />
+
+        <Button
+            android:id="@+id/id_un_sign_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="未签到"
+            />
+    </LinearLayout>
+
+</LinearLayout>

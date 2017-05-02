@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.LeaveRecord;
 import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
@@ -23,6 +25,8 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
     private EditText replayContentEdit;
     private Button commitBtn;
     private RadioGroup redioGroup;
+    private TextView BarTitle;
+    private ImageView BackImage;
 
     private LeaveRecord leaveRecord;
     private SharedPreferences pref;
@@ -33,6 +37,7 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask_for_leave_details);
+        ActivityCollector.addActivity(this);
         leaveRecord = (LeaveRecord) getIntent().getSerializableExtra("object");
         pref = getSharedPreferences("data", MODE_PRIVATE);
         isTeacher = pref.getBoolean("isTeacher", false);
@@ -42,6 +47,8 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
 
 
     private void initView() {
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
         studentNameTV = (TextView) findViewById(R.id.id_student_name_text);
         startTimeTV = (TextView) findViewById(R.id.id_leave_start_time_text);
         endTimeTv = (TextView) findViewById(R.id.id_leave_end_time_text);
@@ -64,6 +71,14 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
         parentTelephoneNoTV.setText(leaveRecord.getParentTelephoneNo());
         leaveReasonTV.setText(leaveRecord.getReason());
         stateTV.setText(leaveRecord.getState());
+        BarTitle.setText("请假详情");
+
+        BackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(AskForLeaveDetailsActivity.this);
+            }
+        });
 
         if (isTeacher&&leaveRecord.getState().equals("审批中")){
             replayContentEdit.setEnabled(true);

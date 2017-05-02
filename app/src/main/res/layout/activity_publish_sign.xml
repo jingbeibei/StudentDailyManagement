@@ -52,5 +52,10 @@
     android:layout_height="wrap_content"
     android:text="发布"
     />
-
+<Button
+    android:id="@+id/id_publish_sign_record_btn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="发布历史记录"
+    />
 </LinearLayout>

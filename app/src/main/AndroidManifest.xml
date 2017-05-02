@@ -69,7 +69,8 @@
         <activity android:name=".ui.home.SignListStudentActivity" />
         <activity android:name=".ui.home.SignStudentDetailsActivity" />
         <activity android:name=".ui.home.SignListTeacherActivity" />
-        <activity android:name=".ui.home.SignTeacherDetailsActivity"></activity>
+        <activity android:name=".ui.home.SignTeacherDetailsActivity" />
+        <activity android:name=".ui.home.NoticeStudentListActivity"></activity>
     </application>
 
 </manifest>

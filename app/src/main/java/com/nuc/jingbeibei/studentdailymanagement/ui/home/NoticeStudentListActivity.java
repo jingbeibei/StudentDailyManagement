@@ -1,18 +1,12 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui.home;
 
-import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -21,13 +15,14 @@ import com.nuc.jingbeibei.studentdailymanagement.adapter.MyItemClickListener;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.NoticeAdapter;
 import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Notice;
-import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
+import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
 import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -38,17 +33,15 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
-public class NoticeActivity extends AppCompatActivity implements MyItemClickListener{
-    private TextView BarTitle;
-    private ImageView BackImage;
-    private TextView BarRight;
-
-    private BmobObject bmobObject;
+public class NoticeStudentListActivity extends AppCompatActivity implements MyItemClickListener {
+    private Student student;
     private XRecyclerView mRecyclerView;
     private NoticeAdapter mAdapter;
+    private TextView BarTitle;
+    private ImageView BackImage;
 
     private ArrayList<String> listData;
-    private List<Notice> noticeList=new ArrayList<>();
+    private List<Notice> noticeList = new ArrayList<>();
 
 
     private static final int STATE_REFRESH = 0;// 下拉刷新
@@ -57,30 +50,21 @@ public class NoticeActivity extends AppCompatActivity implements MyItemClickList
     private int limit = 10;        // 每页的数据是10条
     private int curPage = 0;        // 当前页的编号，从0开始
     private String lastTime;
-    private int count=10;
+    private int count = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notice);
+        setContentView(R.layout.activity_notice_student_list);
         ActivityCollector.addActivity(this);
-        bmobObject = (BmobObject) getIntent().getSerializableExtra("object");
+        student = (Student) getIntent().getSerializableExtra("object");
         initView();
         initEvent();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        queryData(0,STATE_REFRESH);
-    }
-
     private void initView() {
         BarTitle = (TextView) findViewById(R.id.id_bar_title);
-        BarRight= (TextView) findViewById(R.id.bar_right_tv);
         BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
-        BarRight.setText("发布");
-        BarRight.setVisibility(View.VISIBLE);
         BarTitle.setText("通知");
 
         listData = new ArrayList<String>();
@@ -98,35 +82,28 @@ public class NoticeActivity extends AppCompatActivity implements MyItemClickList
         mRecyclerView.refresh();
 
         mRecyclerView.setPullRefreshEnabled(true);
+
     }
 
     private void initEvent() {
-        BarRight.setOnClickListener(new View.OnClickListener() {
+        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
-            public void onClick(View view) {
-                IntentUtils.doIntentWithObject(NoticeActivity.this, publishNoticeActivity.class, "object", (Teacher) bmobObject);
+            public void onRefresh() {
+                queryData(0, STATE_REFRESH);
+            }
+
+            @Override
+            public void onLoadMore() {
+                queryData(curPage, STATE_MORE);
             }
         });
         BackImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityCollector.removeActivity(NoticeActivity.this);
+                ActivityCollector.removeActivity(NoticeStudentListActivity.this);
             }
         });
-        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
-            @Override
-            public void onRefresh() {
-                queryData(0,STATE_REFRESH);
-            }
-
-            @Override
-            public void onLoadMore() {
-                queryData(curPage,STATE_MORE);
-            }
-        });
-
     }
-
 
     /**
      * 分页获取数据
@@ -134,13 +111,13 @@ public class NoticeActivity extends AppCompatActivity implements MyItemClickList
      * @param page       页码
      * @param actionType ListView的操作类型（下拉刷新、上拉加载更多）
      */
-    private void queryData( int page, final int actionType) {
+    private void queryData(int page, final int actionType) {
         Log.i("bmob", "pageN:" + page + " limit:" + limit + " actionType:" + actionType);
-
+        String[] ids = {student.getStudentClass().getObjectId()};
         BmobQuery<Notice> query = new BmobQuery<>();
         // 按时间降序查询
         query.order("-createdAt");
-        query.addWhereEqualTo("publisher",new BmobPointer(bmobObject));
+        query.addWhereContainsAll("visibleClass", Arrays.asList(ids));
         // 如果是加载更多
         if (actionType == STATE_MORE) {
             // 处理时间查询
@@ -184,13 +161,10 @@ public class NoticeActivity extends AppCompatActivity implements MyItemClickList
                         noticeList.addAll(list);
                         // 这里在每次加载完数据后，将当前页码+1，这样在上拉刷新的onPullUpToRefresh方法中就不需要操作curPage了
                         curPage++;
-//                        showToast("第" + (page + 1) + "页数据加载完成");
-//                        mAdapter.notifyDataSetChanged();
-//                        mRecyclerView.refreshComplete();
-                        if (actionType==STATE_REFRESH) {
+                        if (actionType == STATE_REFRESH) {
                             mAdapter.notifyDataSetChanged();
                             mRecyclerView.refreshComplete();
-                        }else {
+                        } else {
                             lastTime = list.get(list.size() - 1).getCreatedAt();
                             mRecyclerView.loadMoreComplete();
                             mAdapter.notifyDataSetChanged();
@@ -199,13 +173,13 @@ public class NoticeActivity extends AppCompatActivity implements MyItemClickList
                     } else if (actionType == STATE_MORE) {
                         mRecyclerView.setNoMore(true);
                         mAdapter.notifyDataSetChanged();
-                        ToastUtils.toast(NoticeActivity.this,"没有更多数据了");
+                        ToastUtils.toast(NoticeStudentListActivity.this, "没有更多数据了");
                     } else if (actionType == STATE_REFRESH) {
-                        ToastUtils.toast(NoticeActivity.this,"没有数据");
+                        ToastUtils.toast(NoticeStudentListActivity.this, "没有数据");
                     }
 
                 } else {
-                    ToastUtils.toast(NoticeActivity.this,"查询失败");
+                    ToastUtils.toast(NoticeStudentListActivity.this, "查询失败");
                     mRecyclerView.refreshComplete();
                 }
             }
@@ -216,7 +190,6 @@ public class NoticeActivity extends AppCompatActivity implements MyItemClickList
 
     @Override
     public void onItemClick(View view, int postion) {
-        Toast.makeText(this, "我是第" + postion + "项", Toast.LENGTH_SHORT).show();
-        IntentUtils.doIntentWithObject(NoticeActivity.this,NoticeDetailsActivity.class,"notice",noticeList.get(postion-1));
+        IntentUtils.doIntentWithObject(NoticeStudentListActivity.this, NoticeDetailsActivity.class, "notice", noticeList.get(postion - 1));
     }
 }

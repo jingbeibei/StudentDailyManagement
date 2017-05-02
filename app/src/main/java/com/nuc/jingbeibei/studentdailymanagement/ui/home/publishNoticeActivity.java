@@ -1,6 +1,7 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui.home;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Notice;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
@@ -37,6 +40,8 @@ public class publishNoticeActivity extends AppCompatActivity {
     private Button selectClassBtn;
     private Button publishNoticeBtn;
     private TextView visibleClassText;
+    private TextView BarTitle;
+    private ImageView BackImage;
     private Teacher teacher;
     private List<StudentClass> studentClassList = new ArrayList<>();
     private List<StudentClass> noticeClassList = new ArrayList<>();
@@ -51,6 +56,10 @@ public class publishNoticeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarTitle.setText("发布通知");
+
         noticeTitleEdit = (EditText) findViewById(R.id.id_notice_title_edit);
         noticeContentEdit = (EditText) findViewById(R.id.id_notice_content_edit);
         selectClassBtn = (Button) findViewById(R.id.id_select_class_btn);
@@ -59,6 +68,13 @@ public class publishNoticeActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
+        BackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(publishNoticeActivity.this);
+            }
+        });
+
         selectClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
@@ -47,12 +49,14 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isCounSelor = false;
     private AutoCompleteTextView idClassNameAutoText;
     private StudentClass studentClass;
+    private ImageView idBackArrowImage;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ActivityCollector.addActivity(this);
         pref = getSharedPreferences("data", MODE_PRIVATE);
         isTeacher = pref.getBoolean("isTeacher", false);
         editor = pref.edit();
@@ -71,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
         idCounselorLayout = (LinearLayout) findViewById(R.id.id_counselor_layout);
         idRealNameEdit = (EditText) findViewById(R.id.id_realname_edit);
         idClassNameAutoText = (AutoCompleteTextView) findViewById(R.id.id_class_auto_text);
+        idBackArrowImage = (ImageView) findViewById(R.id.id_back_arrow_image);
         if (isTeacher) {
             idCounselorLayout.setVisibility(View.VISIBLE);
         }
@@ -104,7 +109,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
+        idBackArrowImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCollector.removeActivity(RegisterActivity.this);
+            }
+        });
     }
 
     private void RegisterMethod() {

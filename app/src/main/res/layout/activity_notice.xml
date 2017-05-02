@@ -6,12 +6,8 @@
 
     android:orientation="vertical"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.NoticeActivity">
-<Button
-    android:id="@+id/id_publish_notice_btn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="发布公告"
-    />
+
+    <include layout="@layout/toolbar_mybar"></include>
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/notice_recyclerview"

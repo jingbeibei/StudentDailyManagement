@@ -18,6 +18,7 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.NoticeAdapter;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class AddressBookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_book);
-
+        ActivityCollector.addActivity(this);
         bmobObject = (BmobObject) getIntent().getSerializableExtra("object");
         initView();
         initEvent();

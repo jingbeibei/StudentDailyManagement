@@ -1,6 +1,7 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui.home;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +14,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.adapter.ClassAdapter;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
 import com.nuc.jingbeibei.studentdailymanagement.utils.GetObjectSingleton;
@@ -36,7 +40,9 @@ import cn.bmob.v3.listener.UpdateListener;
 public class ClassManageActivity extends AppCompatActivity {
     private RecyclerView idClassManageRecycView;
     private LinearLayoutManager mLayoutManager;
-    private Button idAddClassBtn;
+    private TextView BarTitle;
+    private ImageView BackImage;
+    private TextView BarRight;
     private ArrayList<String> allClassList = new ArrayList<String>();
     private List<String> teacherClassList = new ArrayList<String>();
     private List<StudentClass> myobject = new ArrayList<>();
@@ -47,10 +53,12 @@ public class ClassManageActivity extends AppCompatActivity {
     private BmobObject bmobObject;
     private ClassAdapter myAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_manage);
+        ActivityCollector.addActivity(this);
         pref = getSharedPreferences("data", MODE_PRIVATE);
         objectId = pref.getString("objectid", "");
         bmobObject = (BmobObject) getIntent().getSerializableExtra("object");
@@ -60,7 +68,13 @@ public class ClassManageActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        idAddClassBtn = (Button) findViewById(R.id.id_add_class_btn);
+        BarTitle = (TextView) findViewById(R.id.id_bar_title);
+        BarRight = (TextView) findViewById(R.id.bar_right_tv);
+        BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarRight.setText("添加");
+        BarRight.setVisibility(View.VISIBLE);
+        BarTitle.setText("班级管理");
+
         idClassManageRecycView = (RecyclerView) findViewById(R.id.id_class_manage_recycview);
         mLayoutManager = new LinearLayoutManager(this);//设置布局管理器,默认垂直
         idClassManageRecycView.setLayoutManager(mLayoutManager);
@@ -78,12 +92,16 @@ public class ClassManageActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
-
-        idAddClassBtn.setOnClickListener(new View.OnClickListener() {
+        BackImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ActivityCollector.removeActivity(ClassManageActivity.this);
+            }
+        });
+        BarRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 getAllClass();
-
             }
         });
 

@@ -8,6 +8,7 @@ import cn.bmob.v3.BmobObject;
 
 public class SignRecord extends BmobObject {//学生的签到记录表
     private Student student;//学生
+    private String userId;
     private SignType signType;//签到类型
     private String signTime;//签到时间
     private Double latitude;//纬度
@@ -22,6 +23,14 @@ public class SignRecord extends BmobObject {//学生的签到记录表
 
     public void setDistance(float distance) {
         this.distance = distance;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Student getStudent() {

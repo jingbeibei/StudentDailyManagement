@@ -11,58 +11,59 @@
         android:layout_height="192dp">
 
     </com.nuc.jingbeibei.studentdailymanagement.ui.home.ImageSlideshow.ImageSlideshow>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Button
-            android:id="@+id/id_class_management_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="老师班级管理"
-            />
-        <Button
-            android:id="@+id/id_class_counselor_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我是辅导员"
-            />
-        <Button
-            android:id="@+id/id_notice_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="公告"
-            />
-        <Button
-            android:id="@+id/id_address_book_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="通讯录"
-            />
-        <Button
-            android:id="@+id/id_ask_for_leave_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="请销假"
-            />
-        <Button
-            android:id="@+id/id_sign_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="签到"
-            />
+    <include layout="@layout/menu_layout"></include>
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--<LinearLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<Button-->
+            <!--android:id="@+id/id_class_management_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="老师班级管理"-->
+            <!--/>-->
+        <!--<Button-->
+            <!--android:id="@+id/id_class_counselor_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="我是辅导员"-->
+            <!--/>-->
+        <!--<Button-->
+            <!--android:id="@+id/id_notice_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="公告"-->
+            <!--/>-->
+        <!--<Button-->
+            <!--android:id="@+id/id_address_book_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="通讯录"-->
+            <!--/>-->
+        <!--<Button-->
+            <!--android:id="@+id/id_ask_for_leave_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="请销假"-->
+            <!--/>-->
+        <!--<Button-->
+            <!--android:id="@+id/id_sign_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="签到"-->
+            <!--/>-->
 
-        <Button
-            android:id="@+id/id_student_sign_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="学生签到"
-            android:layout_alignParentTop="true" />
+        <!--<Button-->
+            <!--android:id="@+id/id_student_sign_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="学生签到"-->
+            <!--android:layout_alignParentTop="true" />-->
 
-    </LinearLayout>
-</ScrollView>
+    <!--</LinearLayout>-->
+<!--</ScrollView>-->
 
 </LinearLayout>

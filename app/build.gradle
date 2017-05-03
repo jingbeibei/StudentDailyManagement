@@ -37,7 +37,6 @@ dependencies {
     //bmob-push：Bmob的推送包
     //bmob-sms ：Bmob单独为短信服务提供的包
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
-
     //xrecyclerview
     //时间选择控件
     //选择照片
@@ -54,6 +53,7 @@ dependencies {
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
     compile 'com.github.lovetuzitong:MultiImageSelector:1.2'
     compile 'com.zhy:okhttputils:2.6.2'
+    compile 'com.android.support:cardview-v7:25.3.0'
     testCompile 'junit:junit:4.12'
 }
 repositories {//图片选择需要

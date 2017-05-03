@@ -1,6 +1,7 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui.home;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -21,6 +23,7 @@ import com.nuc.jingbeibei.studentdailymanagement.beans.BannerPic;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
 import com.nuc.jingbeibei.studentdailymanagement.ui.home.ImageSlideshow.ImageSlideshow;
+import com.nuc.jingbeibei.studentdailymanagement.ui.news.NewsDetailedActivity;
 import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
 import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -36,19 +39,14 @@ import cn.bmob.v3.listener.QueryListener;
 import okhttp3.Call;
 
 public class HomeFragment extends Fragment {
-    //终于成功了...
     private SharedPreferences pref;
-    private Button idClassManagementBtn;
+
     private String objectId = "";
     private boolean isTeacher = false;
     private BmobObject object;
     private boolean isCounselor = false;
-    private Button idClassCounselorBtn;
-    private Button idNoticeBtn;
-    private Button idAddressBookBtn;
-    private Button idAskForLeaveBtn;
-    private Button idSignBtn;
-    private Button idstudentSignBtn;
+    LinearLayout idNoticeLayout, idAddressBookLayout, idSignLayout, idAskForLeaveLayout, idClassManageLayout, idClassCounselorLayout;
+
     private ImageSlideshow imageSlideshow;
     private List<String> imageUrlList;
     private List<String> titleList;
@@ -73,24 +71,27 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         initView(view);
         initEvent();
         return view;
     }
 
     private void initView(View view) {
-        idClassManagementBtn = (Button) view.findViewById(R.id.id_class_management_btn);
-        idClassCounselorBtn = (Button) view.findViewById(R.id.id_class_counselor_btn);
-        idNoticeBtn = (Button) view.findViewById(R.id.id_notice_btn);
-        idAddressBookBtn = (Button) view.findViewById(R.id.id_address_book_btn);
-        idAskForLeaveBtn = (Button) view.findViewById(R.id.id_ask_for_leave_btn);
-        idSignBtn= (Button) view.findViewById(R.id.id_sign_btn);
-        idstudentSignBtn= (Button) view.findViewById(R.id.id_student_sign_btn);
+        idNoticeLayout = (LinearLayout) view.findViewById(R.id.notice_layout);
+        idAddressBookLayout = (LinearLayout) view.findViewById(R.id.address_book_layout);
+        idSignLayout = (LinearLayout) view.findViewById(R.id.sign_layout);
+        idAskForLeaveLayout = (LinearLayout) view.findViewById(R.id.id_ask_for_leave_layout);
+        idClassManageLayout = (LinearLayout) view.findViewById(R.id.class_management_layout);
+        idClassCounselorLayout = (LinearLayout) view.findViewById(R.id.counselor_layout);
+        if (!isTeacher){
+            idClassCounselorLayout.setVisibility(View.INVISIBLE);
+            idClassManageLayout.setVisibility(View.INVISIBLE);
+        }
+
         imageSlideshow = (ImageSlideshow) view.findViewById(R.id.is_gallery);
         imageUrlList = new ArrayList<>();
         titleList = new ArrayList<>();
-        OkHttpUtils.get().url("http://59.48.248.41:1020/iNUC/api/interface/GetPictureNews?").addParams("pageSize","5").build()
+        OkHttpUtils.get().url("http://59.48.248.41:1020/iNUC/api/interface/GetPictureNews?").addParams("pageSize", "5").build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
@@ -100,7 +101,8 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(String response, int id) {
                         if (response.indexOf("TitlePicture") > 0) {
-                            bannerPicsList = new Gson().fromJson(response, new TypeToken<List<BannerPic>>() {}.getType());
+                            bannerPicsList = new Gson().fromJson(response, new TypeToken<List<BannerPic>>() {
+                            }.getType());
                             // 初始化数据
                             initData();
                         }
@@ -110,25 +112,23 @@ public class HomeFragment extends Fragment {
     }
 
     private void initEvent() {
-        idClassManagementBtn.setOnClickListener(new View.OnClickListener() {
+        idClassManageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                IntentUtils.doIntent(getActivity(), ClassManageActivity.class);
                 IntentUtils.doIntentWithObject(getActivity(), ClassManageActivity.class, "object", object);
             }
         });
-        idClassCounselorBtn.setOnClickListener(new View.OnClickListener() {
+        idClassCounselorLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isCounselor) {
-//                    IntentUtils.doIntent(getActivity(), ClassManageActivity.class);
                     IntentUtils.doIntentWithObject(getActivity(), ClassCounselorActivity.class, "object", object);
                 } else {
                     ToastUtils.toast(getActivity(), "您还不是辅导员，暂时无法使用此功能");
                 }
             }
         });
-        idNoticeBtn.setOnClickListener(new View.OnClickListener() {//公告
+        idNoticeLayout.setOnClickListener(new View.OnClickListener() {//公告
             @Override
             public void onClick(View v) {
                 if (isTeacher) {
@@ -139,13 +139,13 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        idAddressBookBtn.setOnClickListener(new View.OnClickListener() {
+        idAddressBookLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IntentUtils.doIntentWithObject(getActivity(), AddressBookActivity.class, "object", object);
             }
         });
-        idAskForLeaveBtn.setOnClickListener(new View.OnClickListener() {
+        idAskForLeaveLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isTeacher) {
@@ -155,18 +155,18 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        idSignBtn.setOnClickListener(new View.OnClickListener() {
+        idSignLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtils.doIntentWithObject(getActivity(),PublishSignActivity.class,"object",object);
+                if (isTeacher) {
+                    IntentUtils.doIntentWithObject(getActivity(), PublishSignActivity.class, "object", object);
+                }else {
+                    IntentUtils.doIntentWithObject(getActivity(), SignListStudentActivity.class, "object", object);
+                }
+
             }
         });
-        idstudentSignBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtils.doIntentWithObject(getActivity(),SignListStudentActivity.class,"object",object);
-            }
-        });
+
     }
 
     private void getTeacherObject() {
@@ -201,6 +201,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     /**
      * 初始化数据
      */
@@ -218,13 +219,11 @@ public class HomeFragment extends Fragment {
                 "欧洲都这么发达了，怎么人均收入还比美国低"};
         if (bannerPicsList != null) {
             for (int i = 0; i < bannerPicsList.size(); i++) {
-//            imageSlideshow.addImageTitle(imageUrls[i], titles[i]);
                 imageSlideshow.addImageTitle(bannerPicsList.get(i).getTitlePicture(), bannerPicsList.get(i).getTitle());
             }
         } else {
             for (int i = 0; i < imageUrls.length; i++) {//以防获取不到数据
                 imageSlideshow.addImageTitle(imageUrls[i], titles[i]);
-//                imageSlideshow.addImageTitle(bannerPicsList.get(i).getTitlePicture(), bannerPicsList.get(i).getTitle());
             }
         }
 
@@ -236,20 +235,30 @@ public class HomeFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 switch (position) {
                     case 0:
-                        Toast.makeText(getActivity(), "0", Toast.LENGTH_LONG).show();
-//                        startActivity(new Intent(MainActivity.this,Activity_1.class));
+//                        Toast.makeText(getActivity(), "0", Toast.LENGTH_LONG).show();
+                        Intent intent0 = new Intent(getActivity(), NewsDetailedActivity.class);
+                        intent0.putExtra("id", bannerPicsList.get(0).getID()+"");
+                        startActivity(intent0);
                         break;
                     case 1:
-                        Toast.makeText(getContext(), "1", Toast.LENGTH_LONG).show();
+                        Intent intent1 = new Intent(getActivity(), NewsDetailedActivity.class);
+                        intent1.putExtra("id", bannerPicsList.get(1).getID()+"");
+                        startActivity(intent1);
                         break;
                     case 2:
-                        Toast.makeText(getContext(), "2", Toast.LENGTH_LONG).show();
+                        Intent intent2 = new Intent(getActivity(), NewsDetailedActivity.class);
+                        intent2.putExtra("id", bannerPicsList.get(2).getID()+"");
+                        startActivity(intent2);
                         break;
                     case 3:
-                        Toast.makeText(getContext(), "3", Toast.LENGTH_LONG).show();
+                        Intent intent3 = new Intent(getActivity(), NewsDetailedActivity.class);
+                        intent3.putExtra("id", bannerPicsList.get(3).getID()+"");
+                        startActivity(intent3);
                         break;
                     case 4:
-                        Toast.makeText(getContext(), "4", Toast.LENGTH_LONG).show();
+                        Intent intent4 = new Intent(getActivity(), NewsDetailedActivity.class);
+                        intent4.putExtra("id", bannerPicsList.get(4).getID()+"");
+                        startActivity(intent4);
                         break;
                 }
             }

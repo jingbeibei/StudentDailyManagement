@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.ui.home.ImageSlideshow.ImageSlideshow;
+import com.nuc.jingbeibei.studentdailymanagement.ui.news.NewsFragment;
 import com.nuc.jingbeibei.studentdailymanagement.ui.setting.SettingFragment;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class PageFragment extends android.support.v4.app.Fragment {
             return new HomeFragment();
         }
         if(page==2){
-            return new SettingFragment();
+            return new NewsFragment();
         }
         if(page==3){
             return new SettingFragment();

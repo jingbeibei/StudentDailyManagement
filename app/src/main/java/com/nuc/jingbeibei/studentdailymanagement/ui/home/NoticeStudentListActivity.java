@@ -51,7 +51,11 @@ public class NoticeStudentListActivity extends AppCompatActivity implements MyIt
     private int curPage = 0;        // 当前页的编号，从0开始
     private String lastTime;
     private int count = 10;
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        queryData(0,STATE_REFRESH);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +84,6 @@ public class NoticeStudentListActivity extends AppCompatActivity implements MyIt
         mRecyclerView.setArrowImageView(R.mipmap.banner_error);
 
         mRecyclerView.refresh();
-
-        mRecyclerView.setPullRefreshEnabled(true);
 
     }
 

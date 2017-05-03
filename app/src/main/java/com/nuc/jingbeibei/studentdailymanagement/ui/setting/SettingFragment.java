@@ -48,7 +48,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     private BmobObject object;
     private SharedPreferences pref;
     private String objectId = "";
-
+    private TextView BarTitle;
+    private ImageView BackImage;
+    private SharedPreferences.Editor editor;
 
     private static final int REQUEST_IMAGE = 2;
     private ArrayList<String> mSelectPath;
@@ -57,6 +59,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pref = getActivity().getSharedPreferences("data", getContext().MODE_PRIVATE);
+        editor=pref.edit();
         objectId = pref.getString("objectid", "");
         isTeacher = pref.getBoolean("isTeacher", false);
 
@@ -71,7 +74,10 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         modifyData = (RelativeLayout) view.findViewById(R.id.modify_data_layout);
         modifyPassword = (RelativeLayout) view.findViewById(R.id.modify_password_layout);
         exitBtn = (Button) view.findViewById(R.id.id_exit_btn);
-
+        BarTitle = (TextView) view.findViewById(R.id.id_bar_title);
+        BackImage = (ImageView) view.findViewById(R.id.id_back_arrow_image);
+        BackImage.setVisibility(View.INVISIBLE);
+        BarTitle.setText("设置");
 
         initEvent();
         if (isTeacher) {
@@ -104,17 +110,18 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.modify_data_layout:
-//                Intent dataIntent = new Intent(getActivity(), ModifyDateActivity.class);
-//                dataIntent.putExtra("personnel", personnel);
-//                startActivity(dataIntent);
+                Intent dataIntent = new Intent(getActivity(), ModifyDataActivity.class);
+                dataIntent.putExtra("object",object);
+                startActivity(dataIntent);
                 break;
             case R.id.modify_password_layout:
-//                Intent passwordIntent = new Intent(getActivity(), ModifyPasswordActivity.class);
-//                startActivity(passwordIntent);
+                Intent passwordIntent = new Intent(getActivity(), ModifyPasswordActivity.class);
+                passwordIntent.putExtra("object",object);
+                startActivity(passwordIntent);
                 break;
             case R.id.id_exit_btn:
-//                editor.clear();
-//                editor.commit();
+                editor.clear();
+                editor.commit();
                 ActivityCollector.finishAll();
                 break;
         }
@@ -129,11 +136,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 final StringBuilder sb = new StringBuilder();
                 for (String p : mSelectPath) {
                     sb.append(p);
-                    //sb.append("\n");
                 }
-//                Bitmap bitmap = BitmapFactory.decodeFile(sb.toString());
-//                headImage.setImageBitmap(bitmap);
-//                String base64Image = ToolBase64.bitmapToBase64(bitmap);
+
                 final BmobFile bmobFile = new BmobFile(new File(sb.toString()));
                 bmobFile.uploadblock(new UploadFileListener() {
 

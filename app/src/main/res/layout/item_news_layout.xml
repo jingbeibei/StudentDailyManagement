@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
+    android:clickable="true"
+
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nuclistItemTitleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:paddingLeft="10dip"
+                android:text="标题dafdsfdsfdsfdsfdsfdsafdafdafdafdsfdsafdsfdsfdafdafdsf"
+
+                android:textSize="@dimen/text_size_16"
+                android:typeface="serif" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/nucitemskimiv"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/nucskimlabel" />
+
+                <TextView
+                    android:id="@+id/nucitemSkimTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/nucitemskimiv"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/nucitemskimiv"
+                    android:gravity="center"
+                    android:text="200"
+                    android:textSize="15dip" />
+
+                <ImageView
+                    android:id="@+id/nucitemRemarkiv"
+                    android:layout_width="30dip"
+                    android:layout_height="30dip"
+                    android:layout_alignBottom="@id/nucitemskimiv"
+                    android:layout_toRightOf="@id/nucitemSkimTV"
+                    android:src="@mipmap/nucremaklabel"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/nucitemRemarkTV"
+                    android:layout_width="45dip"
+                    android:layout_height="45dip"
+                    android:layout_alignBottom="@id/nucitemskimiv"
+                    android:layout_toRightOf="@id/nucitemRemarkiv"
+                    android:gravity="center"
+                    android:text="2004"
+                    android:textSize="15dip"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dip"
+                    android:text="发布日期：" />
+
+                <TextView
+                    android:id="@+id/nucitempublishTimeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/nucitemskimiv"
+
+                    android:layout_toRightOf="@id/nucitemRemarkTV"
+                    android:gravity="center"
+                    android:text="200"
+                    android:textSize="15dip" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/nucitemTitleIV"
+            android:layout_width="77dp"
+            android:layout_height="77dp"
+            android:layout_margin="3dip"
+            android:maxWidth="80dip"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

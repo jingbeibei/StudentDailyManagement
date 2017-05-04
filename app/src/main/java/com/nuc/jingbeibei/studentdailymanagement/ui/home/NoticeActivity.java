@@ -84,7 +84,7 @@ public class NoticeActivity extends AppCompatActivity implements MyItemClickList
         BarTitle.setText("通知");
 
         listData = new ArrayList<String>();
-        mAdapter = new NoticeAdapter(listData);
+        mAdapter = new NoticeAdapter(this, (ArrayList<Notice>) noticeList);
         mAdapter.setListener(this);
         mRecyclerView = (XRecyclerView) findViewById(R.id.notice_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

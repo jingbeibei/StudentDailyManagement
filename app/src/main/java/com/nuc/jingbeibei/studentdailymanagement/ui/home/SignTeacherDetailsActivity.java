@@ -1,5 +1,7 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui.home;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,12 +37,13 @@ public class SignTeacherDetailsActivity extends AppCompatActivity {
     private TextView signTileTv, publisherTv, signStartTimeTv, signEndTimeTv, isCompleteTv, publisherAddress, visibleClass;
     private Button SuccessBtn, isFailBtn, unSignBtn;
     private SignType signType;
-    private String s = "select * from signRecord where typeid=xxx";
     private Teacher teacher;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private TextView BarTitle;
     private ImageView BackImage;
     private ArrayList<String> studentIdList = new ArrayList<>();
+    private ArrayList<SignRecord> failList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,10 @@ public class SignTeacherDetailsActivity extends AppCompatActivity {
         teacher = (Teacher) getIntent().getSerializableExtra("teacher");
         initView();
         initEvent();
-        getStudentOfUnsign();
+        getStudentOfSign();
+        getStudentOfSignAllRecord();
+        getStudentOfSignSuccess();
+        getStudentOfSignFail();
     }
 
     private void initView() {
@@ -93,6 +99,22 @@ public class SignTeacherDetailsActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
+        isFailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignTeacherDetailsActivity.this, SignFailListActivity.class);
+                intent.putExtra("signType", signType);
+                startActivity(intent);
+            }
+        });
+        unSignBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignTeacherDetailsActivity.this, UnSignListActivity.class);
+                intent.putExtra("signType", signType);
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -153,6 +175,7 @@ public class SignTeacherDetailsActivity extends AppCompatActivity {
 
     private void getStudentOfSignFail() {//查询本次签到失败的所有记录
         BmobQuery<SignRecord> query = new BmobQuery<>();
+        query.include("student");
         query.addWhereEqualTo("signType", new BmobPointer(signType));
         query.addWhereEqualTo("isSuccess", 0);
         query.findObjects(new FindListener<SignRecord>() {
@@ -189,7 +212,7 @@ public class SignTeacherDetailsActivity extends AppCompatActivity {
             public void done(List<Student> list, BmobException e) {
                 if (e == null) {
                     if (list.size() != 0) {
-
+                        unSignBtn.setText("未签到（" + list.size() + ")");
                     }
                 }
             }

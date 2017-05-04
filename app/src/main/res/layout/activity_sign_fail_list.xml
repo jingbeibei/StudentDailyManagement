@@ -5,10 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.SignListTeacherActivity">
-
+    tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.SignFailListActivity">
     <include layout="@layout/toolbar_mybar"></include>
-
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/sing_list_recyclerview"
         android:layout_width="fill_parent"

@@ -80,7 +80,7 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
             }
         });
 
-        if (isTeacher&&leaveRecord.getState().equals("审批中")){
+        if (isTeacher&&leaveRecord.getState().equals("申请中")){
             replayContentEdit.setEnabled(true);
             redioGroup.setVisibility(View.VISIBLE);
             commitBtn.setVisibility(View.VISIBLE);

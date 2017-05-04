@@ -92,7 +92,7 @@ public class AddressBookPageFragment extends Fragment implements MyItemClickList
 //        maddressBookAdapter = new AddressBookAdapter(studentList, isTeacher);
 
         if (type.equals("学生")) {//学生：进入学生选项卡
-            maddressBookAdapter = new AddressBookAdapter(studentList, false);
+            maddressBookAdapter = new AddressBookAdapter(studentList, false,getActivity());
             if (isTeacher) {//是老师
                 queryStudentOfTeacher();
             } else {//不是老师
@@ -101,7 +101,7 @@ public class AddressBookPageFragment extends Fragment implements MyItemClickList
 //            maddressBookAdapter=new AddressBookAdapter(studentList,isTeacher);
 //            mRecyclerView.setAdapter(maddressBookAdapter);
         } else {//老师选项卡
-            maddressBookAdapter = new AddressBookAdapter(teacherList, true);
+            maddressBookAdapter = new AddressBookAdapter(teacherList, true,getActivity());
             if (isTeacher) {//是老师
                 queryAllTeacher();
             } else {//不是老师

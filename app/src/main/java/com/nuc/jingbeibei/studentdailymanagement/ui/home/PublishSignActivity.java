@@ -44,11 +44,11 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class PublishSignActivity extends AppCompatActivity {
     private TextView teacherNameTV, startTimeTV, endTimeTV, selectClassTV, myPlaceTV;
-    private TextView PublishSignRecordBtn;
     private EditText signtitleET;
     private Button publishSignBtn;
     private TextView BarTitle;
     private ImageView BackImage;
+    private TextView BarRight;
     private Teacher teacher;
     private Double latitude;//纬度
     private Double longitude;//经度
@@ -74,9 +74,11 @@ public class PublishSignActivity extends AppCompatActivity {
         signtitleET = (EditText) findViewById(R.id.id_sign_title_edit);
         teacherNameTV.setText(teacher.getRealName());
         publishSignBtn= (Button) findViewById(R.id.id_publish_sign_btn);
-        PublishSignRecordBtn= (TextView) findViewById(R.id.id_publish_sign_record_btn);
         BarTitle = (TextView) findViewById(R.id.id_bar_title);
         BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
+        BarRight= (TextView) findViewById(R.id.bar_right_tv);
+        BarRight.setVisibility(View.VISIBLE);
+        BarRight.setText("记录");
         BarTitle.setText("发布签到");
 
         BackImage.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +171,7 @@ public class PublishSignActivity extends AppCompatActivity {
                 }
             }
         });
-        PublishSignRecordBtn.setOnClickListener(new View.OnClickListener() {
+       BarRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IntentUtils.doIntentWithObject(PublishSignActivity.this,SignListTeacherActivity.class,"object",teacher);

@@ -73,7 +73,10 @@
         <activity android:name=".ui.home.NoticeStudentListActivity" />
         <activity android:name=".ui.news.NewsDetailedActivity" />
         <activity android:name=".ui.setting.ModifyDataActivity" />
-        <activity android:name=".ui.setting.ModifyPasswordActivity"></activity>
+        <activity android:name=".ui.setting.ModifyPasswordActivity" />
+        <activity android:name=".ui.home.SignFailListActivity" />
+        <activity android:name=".ui.home.UnSignListActivity" />
+        <activity android:name=".ui.home.SignStudentFailDetailsActivity" />
     </application>
 
 </manifest>

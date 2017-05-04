@@ -103,7 +103,7 @@ public class AskLeaveRecordListActivity extends AppCompatActivity implements MyI
 
     private void getData(int page, final int actionType) {
         BmobQuery<LeaveRecord> query = new BmobQuery<>();
-        query.include("student,counselorName");
+        query.include("student.studentClass,counselorName");
         // 按时间降序查询
         query.order("-createdAt");
         if (isTeacher) {

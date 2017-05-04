@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void verifyUserForTeacher(String userId, String password) {//验证学生用户 坑啊改变不了泛型 md
+    private void verifyUserForTeacher(String userId, String password) {//验证老师用户 坑啊改变不了泛型 md
         BmobQuery<Teacher> query = new BmobQuery<Teacher>();
         //查询数据
         query.addWhereEqualTo("userId", userId);
@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(List<Teacher> object, BmobException e) {
                 if (e == null) {
-                    ToastUtils.toast(LoginActivity.this, "登录成功:");
+                    ToastUtils.toast(LoginActivity.this, "登录成功");
                     editor.putString("objectid",object.get(0).getObjectId());
                     editor.commit();
                     IntentUtils.doIntent(LoginActivity.this, MainActivity.class);

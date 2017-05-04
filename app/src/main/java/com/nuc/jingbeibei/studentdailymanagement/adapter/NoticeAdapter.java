@@ -57,7 +57,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return datas.size();
+        return notices.size();
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素

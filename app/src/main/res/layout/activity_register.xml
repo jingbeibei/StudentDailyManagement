@@ -111,8 +111,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="0dp"
                 android:hint="请输入班级"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/text_size_16"
                 android:gravity="center"
                 android:completionThreshold="4"
                 />

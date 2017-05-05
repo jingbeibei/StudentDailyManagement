@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("objectid",object.get(0).getObjectId());
                     editor.commit();
                     IntentUtils.doIntent(LoginActivity.this, MainActivity.class);
+                    ActivityCollector.removeActivity(LoginActivity.this);
                 } else {
                     ToastUtils.toast(LoginActivity.this, "用户名或密码错误");
                     idLoginBtn.setClickable(true);
@@ -136,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("objectid",object.get(0).getObjectId());
                     editor.commit();
                     IntentUtils.doIntent(LoginActivity.this, MainActivity.class);
+                    ActivityCollector.removeActivity(LoginActivity.this);
                 } else {
                     ToastUtils.toast(LoginActivity.this, "用户名或密码错误");
                     idLoginBtn.setClickable(true);

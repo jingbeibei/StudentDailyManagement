@@ -1,9 +1,23 @@
 package com.nuc.jingbeibei.studentdailymanagement.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsMessage;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.format.Time;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,13 +38,17 @@ import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class RegisterActivity extends AppCompatActivity {
     private SharedPreferences pref;
@@ -51,6 +69,78 @@ public class RegisterActivity extends AppCompatActivity {
     private StudentClass studentClass;
     private ImageView idBackArrowImage;
 
+    private TimeCount mTiemTimeCount;
+    //短信验证码内容 验证码是6位数字的格式
+    private String strContent;
+    private String patternCoder = "(?<!\\d)\\d{6}(?!\\d)";
+
+    //填写服务器号码
+    private static final String SERVICECHECKNUM = "";
+
+    //更新界面
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (idYanzhengmaEdit != null) {
+                idYanzhengmaEdit.setText(strContent);
+            }
+        }
+
+    };
+    //监听短信广播
+    private BroadcastReceiver smsReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Object[] objs = (Object[]) intent.getExtras().get("pdus");
+            for (Object obj : objs) {
+                byte[] pdu = (byte[]) obj;
+                SmsMessage sms = SmsMessage.createFromPdu(pdu);
+                // 短信的内容
+                String message = sms.getMessageBody();
+                Log.d("TAG", "message     " + message);
+                String from = sms.getOriginatingAddress();
+                Log.d("TAG", "from     " + from);
+                if (SERVICECHECKNUM.equals(from.toString().trim()) || TextUtils.isEmpty(SERVICECHECKNUM)) {
+                    Time time = new Time();
+                    time.set(sms.getTimestampMillis());
+                    String time2 = time.format3339(true);
+                    Log.d("TAG", from + "   " + message + "  " + time2);
+                    strContent = from + "   " + message;
+                    //mHandler.sendEmptyMessage(1);
+                    if (!TextUtils.isEmpty(from)) {
+                        String code = patternCode(message);
+                        if (!TextUtils.isEmpty(code)) {
+                            strContent = code;
+                            mHandler.sendEmptyMessage(1);
+                        }
+                    }
+                } else {
+                    return;
+                }
+            }
+
+        }
+    };
+    /**
+     * 匹配短信中间的6个数字（验证码等）
+     *
+     * @param patternContent
+     * @return
+     */
+    private String patternCode(String patternContent) {
+        if (TextUtils.isEmpty(patternContent)) {
+            return null;
+        }
+        Pattern p = Pattern.compile(patternCoder);
+        Matcher matcher = p.matcher(patternContent);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return null;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
         pref = getSharedPreferences("data", MODE_PRIVATE);
         isTeacher = pref.getBoolean("isTeacher", false);
         editor = pref.edit();
+        mTiemTimeCount = new TimeCount(60000, 1000);
         initView();
         initEvent();
     }
@@ -95,7 +186,14 @@ public class RegisterActivity extends AppCompatActivity {
 
                     ToastUtils.toast(RegisterActivity.this, "所有信息不能为空");
                 } else {
-                    RegisterMethod();
+                    BmobSMS.verifySmsCode(phone, yanzhengma, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e==null){
+                                RegisterMethod();
+                            }
+                        }
+                    });
 
                 }
             }
@@ -113,6 +211,24 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ActivityCollector.removeActivity(RegisterActivity.this);
+            }
+        });
+        idGetnumBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentFilter filter = new IntentFilter();
+                filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+                filter.setPriority(Integer.MAX_VALUE);
+                registerReceiver(smsReceiver, filter);
+//                mTiemTimeCount.start();
+                BmobSMS.requestSMSCode( idPhoneEdit.getText().toString(),"短信验证码", new QueryListener<Integer>() {
+                    @Override
+                    public void done(Integer integer, BmobException e) {
+                            if (e==null){
+                                mTiemTimeCount.start();
+                            }
+                    }
+                });
             }
         });
     }
@@ -135,6 +251,7 @@ public class RegisterActivity extends AppCompatActivity {
                         editor.putString("objectid", objectId);
                         editor.commit();
                         IntentUtils.doIntent(RegisterActivity.this, MainActivity.class);
+                       ActivityCollector.removeActivity(RegisterActivity.this);
                     } else {
                         ToastUtils.toast(RegisterActivity.this, "注册失败");
                     }
@@ -239,6 +356,7 @@ public class RegisterActivity extends AppCompatActivity {
                     editor.commit();
                     ToastUtils.toast(RegisterActivity.this, "注册成功");
                     IntentUtils.doIntent(RegisterActivity.this, MainActivity.class);
+                    ActivityCollector.removeActivity(RegisterActivity.this);
                 } else {
                     ToastUtils.toast(RegisterActivity.this, "注册失败");
                 }
@@ -246,5 +364,38 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+    //计时重发
+    private class TimeCount extends CountDownTimer {
 
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            idGetnumBtn.setClickable(false);
+            idGetnumBtn.setText(millisUntilFinished / 1000 + "秒后重新发送");
+            Log.i("------log-----",millisUntilFinished / 1000 + "秒后重新发送");
+
+            Spannable span = new SpannableString(idGetnumBtn.getText().toString());//获取按钮的文字
+            span.setSpan(new ForegroundColorSpan(Color.YELLOW), 0, 2, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);//讲倒计时时间显示为红色
+            idGetnumBtn.setText(span);
+        }
+
+        @Override
+        public void onFinish() {
+            idGetnumBtn.setText("获取验证码");
+            idGetnumBtn.setClickable(true);
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        try {
+            unregisterReceiver(smsReceiver);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
 }

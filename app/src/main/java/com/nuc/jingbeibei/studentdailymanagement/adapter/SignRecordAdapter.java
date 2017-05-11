@@ -42,6 +42,7 @@ public class SignRecordAdapter extends RecyclerView.Adapter<SignRecordAdapter.Vi
     @Override
     public void onBindViewHolder(SignRecordAdapter.ViewHolder holder, int position) {
         holder.signTileTV.setText(datas.get(position).getTitle());
+        holder.publisher.setText(datas.get(position).getPublisher().getRealName());
         System.out.println("---------------标题--------"+datas.get(position).getTitle());
         try {
          if(new Date().before(sdf.parse(datas.get(position).getEndTime()))){//当前时间在结束时间之前
@@ -62,12 +63,13 @@ public class SignRecordAdapter extends RecyclerView.Adapter<SignRecordAdapter.Vi
     }
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView signTileTV,stateTV;
+        public TextView signTileTV,stateTV,publisher;
         private MyItemClickListener listener;
         public ViewHolder(View view,MyItemClickListener listener){
             super(view);
             signTileTV = (TextView) view.findViewById(R.id.sign_title);
             stateTV= (TextView) view.findViewById(R.id.sign_state);
+            publisher=(TextView)view.findViewById(R.id.id_sign_publisher_text);
             this.listener=listener;
             view.setOnClickListener(SignRecordAdapter.ViewHolder.this);
         }

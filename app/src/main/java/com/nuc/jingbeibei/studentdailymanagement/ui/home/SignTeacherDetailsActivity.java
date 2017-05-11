@@ -17,6 +17,7 @@ import com.nuc.jingbeibei.studentdailymanagement.beans.SignType;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.beans.StudentClass;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
+import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -115,7 +116,12 @@ public class SignTeacherDetailsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        SuccessBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.toast(SignTeacherDetailsActivity.this, "签到成功的不可查看");
+            }
+        });
 
     }
 

@@ -73,10 +73,10 @@ public class PublishSignActivity extends AppCompatActivity {
         myPlaceTV = (TextView) findViewById(R.id.id_myplace_text);
         signtitleET = (EditText) findViewById(R.id.id_sign_title_edit);
         teacherNameTV.setText(teacher.getRealName());
-        publishSignBtn= (Button) findViewById(R.id.id_publish_sign_btn);
+        publishSignBtn = (Button) findViewById(R.id.id_publish_sign_btn);
         BarTitle = (TextView) findViewById(R.id.id_bar_title);
         BackImage = (ImageView) findViewById(R.id.id_back_arrow_image);
-        BarRight= (TextView) findViewById(R.id.bar_right_tv);
+        BarRight = (TextView) findViewById(R.id.bar_right_tv);
         BarRight.setVisibility(View.VISIBLE);
         BarRight.setText("记录");
         BarTitle.setText("发布签到");
@@ -171,29 +171,30 @@ public class PublishSignActivity extends AppCompatActivity {
                 }
             }
         });
-       BarRight.setOnClickListener(new View.OnClickListener() {
+        BarRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtils.doIntentWithObject(PublishSignActivity.this,SignListTeacherActivity.class,"object",teacher);
+                IntentUtils.doIntentWithObject(PublishSignActivity.this, SignListTeacherActivity.class, "object", teacher);
             }
         });
         publishSignBtn.setOnClickListener(new View.OnClickListener() {//提交签到
             @Override
             public void onClick(View v) {
-                String title=signtitleET.getText().toString();
-                String endTime=endTimeTV.getText().toString();
-                String startTime=startTimeTV.getText().toString();
-                String visibleClass=selectClassTV.getText().toString();
-                if(title.equals("")||endTime.equals("")||startTime.equals("")||visibleClass.equals("")){
-                    ToastUtils.toast(PublishSignActivity.this,"信息不完整，请检查");
-                }{
-                    SignType signType=new SignType();
+                String title = signtitleET.getText().toString();
+                String endTime = endTimeTV.getText().toString();
+                String startTime = startTimeTV.getText().toString();
+                String visibleClass = selectClassTV.getText().toString();
+                if (title.equals("") || endTime.equals("") || startTime.equals("") || visibleClass.equals("")) {
+                    ToastUtils.toast(PublishSignActivity.this, "信息不完整，请检查");
+                }
+                {
+                    SignType signType = new SignType();
                     signType.setPublisher(teacher);
                     signType.setEndTime(endTime);
                     signType.setStartTime(startTime);
                     signType.setTitle(title);
                     BmobRelation relation = new BmobRelation();
-                    for (StudentClass studentClass:netStudentClassList){
+                    for (StudentClass studentClass : netStudentClassList) {
                         relation.add(studentClass);
                     }
                     signType.setLatitude(latitude);
@@ -203,10 +204,10 @@ public class PublishSignActivity extends AppCompatActivity {
                     signType.save(new SaveListener<String>() {
                         @Override
                         public void done(String s, BmobException e) {
-                            if(e==null){
-                                ToastUtils.toast(PublishSignActivity.this,"发布成功！");
-                            }else{
-                                ToastUtils.toast(PublishSignActivity.this,"发布失败！"+e.getMessage());
+                            if (e == null) {
+                                ToastUtils.toast(PublishSignActivity.this, "发布成功！");
+                            } else {
+                                ToastUtils.toast(PublishSignActivity.this, "发布失败！" + e.getMessage());
 
                             }
                         }
@@ -224,15 +225,16 @@ public class PublishSignActivity extends AppCompatActivity {
                     if (aMapLocation.getErrorCode() == 0) {
 //可在其中解析amapLocation获取相应内容。
                         latitude = aMapLocation.getLatitude();//获取纬度
-                        longitude=aMapLocation.getLongitude();//获取经度
+                        longitude = aMapLocation.getLongitude();//获取经度
                         float s = aMapLocation.getAccuracy();//获取精度信息
-                        location= aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-                        myPlaceTV.setText(location);
+                        location = aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                        myPlaceTV.setText("位置：" + location);
                     } else {
                         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                         Log.e("AmapError", "location Error, ErrCode:"
                                 + aMapLocation.getErrorCode() + ", errInfo:"
                                 + aMapLocation.getErrorInfo());
+                        ToastUtils.toast(PublishSignActivity.this, "没有定位权限");
                     }
                 }
             }

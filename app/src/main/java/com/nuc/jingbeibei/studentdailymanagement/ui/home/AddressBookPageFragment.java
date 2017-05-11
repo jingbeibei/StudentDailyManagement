@@ -327,17 +327,10 @@ public class AddressBookPageFragment extends Fragment implements MyItemClickList
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String phone_number = "10086";
                 Intent intent2 = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
                         + finalPhone));
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
                     ToastUtils.toast(getActivity(), "请开启打电话权限");
                     return;
                 }

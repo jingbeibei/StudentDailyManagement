@@ -87,7 +87,7 @@
                 android:layout_width="36dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_black_phone"/>
+                android:src="@mipmap/icon_name"/>
             <TextView
                 android:gravity="center"
                 android:layout_width="wrap_content"

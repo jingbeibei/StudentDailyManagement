@@ -169,6 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
         idBackArrowImage = (ImageView) findViewById(R.id.id_back_arrow_image);
         if (isTeacher) {
             idCounselorLayout.setVisibility(View.VISIBLE);
+            idClassNameAutoText.setVisibility(View.GONE);
         }
         getClassName();
     }

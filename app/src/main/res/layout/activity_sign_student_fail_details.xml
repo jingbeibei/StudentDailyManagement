@@ -40,6 +40,7 @@
 
 
 
+
     <TextView
         android:id="@+id/id_sign_publisher_adress_text"
         android:layout_width="match_parent"

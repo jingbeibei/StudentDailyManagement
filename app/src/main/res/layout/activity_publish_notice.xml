@@ -11,27 +11,38 @@
 <EditText
     android:id="@+id/id_notice_title_edit"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:layout_height="wrap_content"
     android:hint="标题"
+   android:gravity="center"
     android:layout_marginTop="@dimen/activity_horizontal_margin"
     />
     <EditText
         android:id="@+id/id_notice_content_edit"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:hint="内容"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:gravity="top"
+        android:lines="6"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:background="@drawable/textview_border"
         />
     <Button
         android:id="@+id/id_select_class_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/textview_border"
         android:text="选择班级"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_gravity="right"
         />
     <Button
         android:id="@+id/id_publish_notice_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/login_button"
+        android:textColor="@color/colorWhite"
         android:text="发布"
         />
     <TextView

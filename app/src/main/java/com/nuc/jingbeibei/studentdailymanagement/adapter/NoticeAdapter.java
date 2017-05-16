@@ -48,6 +48,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
         if (pic!=null){
             Picasso.with(mContext)
                     .load(pic)
+                    .resize(50, 50)
                     .placeholder(R.mipmap.ic_image_loading)
                     .error(R.mipmap.ic_image_loadfail)
                     .into(holder.headIV);

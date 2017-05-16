@@ -1,56 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="#fbfcfe"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fbfcfe"
+    android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
-        android:background="@color/colorMain"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/colorMain">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="注册"
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <ImageView
-                android:layout_alignParentLeft="true"
-                android:id="@+id/id_back_arrow_image"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/icon_left_arrow"
-                android:layout_width="36dp"
-                android:layout_height="match_parent"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:paddingRight="@dimen/activity_horizontal_margin"/>
-        </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
-    <LinearLayout
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="@drawable/login"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
+                android:textSize="18sp" />
 
             <ImageView
-                android:paddingLeft="10dp"
+                android:id="@+id/id_back_arrow_image"
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingBottom="15dp"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="15dp"
+                android:src="@mipmap/icon_left_arrow" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
                 android:layout_width="36dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_black_phone"/>
+                android:paddingLeft="10dp"
+                android:src="@mipmap/icon_black_phone" />
 
             <EditText
                 android:id="@+id/id_account_edit"
@@ -64,203 +69,220 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="+86"
-                android:visibility="gone"
                 android:textColor="#000000"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#cac9ce"/>
+            android:background="#cac9ce" />
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:orientation="horizontal">
 
             <ImageView
-                android:paddingLeft="10dp"
                 android:layout_width="36dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_name"/>
+                android:paddingLeft="10dp"
+                android:src="@mipmap/icon_name" />
+
             <TextView
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="+86"
-                android:visibility="gone"
                 android:textColor="#000000"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:visibility="gone" />
+
             <EditText
                 android:id="@+id/id_realname_edit"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@null"
                 android:hint="真实姓名"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:textColorHint="#cccccc"
-                android:textSize="16sp"
-                android:background="@null"/>
+                android:textSize="16sp" />
+
             <AutoCompleteTextView
                 android:id="@+id/id_class_auto_text"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="0dp"
-                android:hint="请输入班级"
-                android:textSize="@dimen/text_size_16"
-                android:gravity="center"
                 android:completionThreshold="4"
-                />
+                android:gravity="center"
+                android:hint="请输入班级"
+                android:padding="0dp"
+                android:textSize="@dimen/text_size_16" />
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#cac9ce"/>
+            android:background="#cac9ce" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal">
+
             <ImageView
-                android:paddingLeft="10dp"
                 android:layout_width="36dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_password"/>
+                android:paddingLeft="10dp"
+                android:src="@mipmap/icon_password" />
+
             <EditText
                 android:id="@+id/id_password_edit"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@null"
                 android:hint="输入密码"
                 android:inputType="textPassword"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:textColorHint="#cccccc"
-                android:textSize="16sp"
-                android:background="@null"/>
+                android:textSize="16sp" />
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#cac9ce"/>
+            android:background="#cac9ce" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal">
+
             <ImageView
-                android:paddingLeft="10dp"
                 android:layout_width="36dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_black_phone"/>
+                android:paddingLeft="10dp"
+                android:src="@mipmap/icon_black_phone" />
+
             <EditText
                 android:id="@+id/id_phone_edit"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@null"
                 android:hint="输入手机号"
                 android:inputType="phone"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:textColorHint="#cccccc"
-                android:textSize="16sp"
-                android:background="@null"/>
+                android:textSize="16sp" />
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#cac9ce"/>
+            android:background="#cac9ce" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/yanzhengma"
-                android:paddingLeft="10dp"
                 android:layout_width="36dp"
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_verification"/>
+                android:paddingLeft="10dp"
+                android:src="@mipmap/icon_verification" />
+
             <EditText
                 android:id="@+id/id_yanzhengma_edit"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="请输入验证码"
                 android:layout_toRightOf="@id/yanzhengma"
-                android:textColorHint="#cccccc"
-                android:textSize="16sp"
+                android:background="@null"
+                android:hint="请输入验证码"
                 android:inputType="number"
-                android:background="@null"/>
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textColorHint="#cccccc"
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/id_getvnum_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="获取验证码"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                />
+                android:layout_centerVertical="true"
+                android:text="获取验证码" />
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#cac9ce"/>
+            android:background="#cac9ce" />
+
         <LinearLayout
             android:id="@+id/id_counselor_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="是否是辅导员？"
-                android:textSize="@dimen/text_size"
                 android:gravity="center"
-                />
+                android:text="是否是辅导员？"
+                android:textSize="@dimen/text_size" />
+
             <RadioGroup
                 android:id="@+id/id_iscounselor_radiogroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/id_iscounselor_false_radiobtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="否"
                     android:checked="true"
-                    />
+                    android:text="否" />
+
                 <RadioButton
                     android:id="@+id/id_iscounselor_true_radiobtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="是"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    />
+                    android:text="是" />
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
+
     <TextView
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="注：学号、职工号、真实姓名注册后不可修改"
-        />
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="3dp"
+        android:text="注：学号、职工号、真实姓名注册后不可修改" />
+
     <Button
         android:id="@+id/id_register_btn"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_button"
         android:text="注册"
         android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:background="@drawable/login_button"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+        android:textSize="18sp" />
 
 </LinearLayout>

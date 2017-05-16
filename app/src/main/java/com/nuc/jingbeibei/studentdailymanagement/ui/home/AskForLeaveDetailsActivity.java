@@ -71,6 +71,8 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
         parentTelephoneNoTV.setText(leaveRecord.getParentTelephoneNo());
         leaveReasonTV.setText(leaveRecord.getReason());
         stateTV.setText(leaveRecord.getState());
+        if (leaveRecord.getReplyContent()!=null)
+        replayContentEdit.setText(leaveRecord.getReplyContent());
         BarTitle.setText("请假详情");
 
         BackImage.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +82,7 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
             }
         });
 
-        if (isTeacher&&leaveRecord.getState().equals("申请中")){
+        if (isTeacher&&leaveRecord.getState().equals("审批中")){
             replayContentEdit.setEnabled(true);
             redioGroup.setVisibility(View.VISIBLE);
             commitBtn.setVisibility(View.VISIBLE);

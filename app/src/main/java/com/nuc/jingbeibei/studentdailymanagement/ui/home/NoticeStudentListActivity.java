@@ -119,6 +119,7 @@ public class NoticeStudentListActivity extends AppCompatActivity implements MyIt
         BmobQuery<Notice> query = new BmobQuery<>();
         // 按时间降序查询
         query.order("-createdAt");
+        query.include("publisher");
         query.addWhereContainsAll("visibleClass", Arrays.asList(ids));
         // 如果是加载更多
         if (actionType == STATE_MORE) {

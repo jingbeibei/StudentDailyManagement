@@ -207,7 +207,7 @@ public class publishNoticeActivity extends AppCompatActivity {
                         for (StudentClass studentclass : noticeClassList)
                             if (!classString.contains(studentclass.getClassNo()))
                                 classString = classString + studentclass.getClassNo() + ";";
-                        visibleClassText.setText(classString);
+                        selectClassBtn.setText(classString);
 
                     }
                 })

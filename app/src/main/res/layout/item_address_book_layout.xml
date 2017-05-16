@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="姓名"
+                android:textStyle="bold"
                 android:textSize="@dimen/text_size_16" />
 
             <LinearLayout
@@ -54,6 +55,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
+                    android:textStyle="bold"
                     android:text="1314011428" />
 
                 <TextView
@@ -67,6 +69,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
+                    android:textStyle="bold"
                     android:text="1843518655x" />
             </LinearLayout>
         </LinearLayout>

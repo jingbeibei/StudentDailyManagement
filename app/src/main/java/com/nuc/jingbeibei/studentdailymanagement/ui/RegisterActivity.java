@@ -252,7 +252,7 @@ public class RegisterActivity extends AppCompatActivity {
                         editor.putString("objectid", objectId);
                         editor.commit();
                         IntentUtils.doIntent(RegisterActivity.this, MainActivity.class);
-                       ActivityCollector.removeActivity(RegisterActivity.this);
+                        ActivityCollector.finishAll();
                     } else {
                         ToastUtils.toast(RegisterActivity.this, "注册失败");
                     }

@@ -6,75 +6,224 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.AskForLeaveDetailsActivity">
+
     <include layout="@layout/toolbar_mybar"></include>
-    <TextView
-        android:id="@+id/id_student_name_text"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:gravity="center"
-        android:text="请假人xxx" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/id_leave_reason_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请假原因" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="请假人:" />
 
-    <TextView
-        android:id="@+id/id_parent_name_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="父母姓名" />
+        <TextView
+            android:id="@+id/id_student_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="xxx"
+            android:textSize="@dimen/text_size" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/id_parent_telephoneNo_edit"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="父母联系方式" />
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/id_home_address_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="家庭联系地址" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="请假原因:" />
 
-    <TextView
-        android:id="@+id/id_leave_start_time_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="开始时间" />
+        <TextView
+            android:id="@+id/id_leave_reason_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/textview_border"
+            android:lines="3"
+            android:text="xxx"
+            android:textSize="@dimen/text_size" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/id_leave_end_time_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="结束时间" />
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/id_leave_counselor_name_text"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="父母姓名:" />
+
+        <TextView
+            android:id="@+id/id_parent_name_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:text="xxx"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="审批者" />
-<TextView
-    android:id="@+id/id_leave_state_text"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="状态"
-    />
-    <EditText
-        android:id="@+id/id_leave_reply_content_edit"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="父母联系电话:" />
+
+        <TextView
+            android:id="@+id/id_parent_telephoneNo_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:text="1234567890"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="回复" />
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="家庭联系地址:" />
+
+        <TextView
+            android:id="@+id/id_home_address_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/textview_border"
+            android:lines="2"
+            android:text="山西省，太原市"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="时间:" />
+
+        <TextView
+            android:id="@+id/id_leave_start_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:text="2016.1.3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/id_leave_end_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:text="2016.3.0" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="审批者：" />
+
+        <TextView
+            android:id="@+id/id_leave_counselor_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:text="xxx"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="审批状态：" />
+
+        <TextView
+            android:id="@+id/id_leave_state_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:text="xxx"
+            android:textColor="@color/red"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="回复：" />
+
+        <EditText
+            android:id="@+id/id_leave_reply_content_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border"
+            android:enabled="false"
+            android:gravity="center"
+            android:lines="2"
+            android:textSize="20dp" />
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/radioGroupID"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <RadioButton
             android:id="@+id/passGroupID"
@@ -94,6 +243,8 @@
         android:id="@+id/id_leave_commit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="提交" />
+        android:layout_gravity="center"
+        android:background="@drawable/login_button"
+        android:text="提交"
+        android:visibility="gone" />
 </LinearLayout>

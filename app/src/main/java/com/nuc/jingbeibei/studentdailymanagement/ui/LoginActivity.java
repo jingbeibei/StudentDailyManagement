@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 IntentUtils.doIntent(LoginActivity.this, RegisterActivity.class);
+
             }
         });
         idBackArrowImage.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("objectid",object.get(0).getObjectId());
                     editor.commit();
                     IntentUtils.doIntent(LoginActivity.this, MainActivity.class);
-                    ActivityCollector.removeActivity(LoginActivity.this);
+                    ActivityCollector.finishAll();
                 } else {
                     ToastUtils.toast(LoginActivity.this, "用户名或密码错误");
                     idLoginBtn.setClickable(true);

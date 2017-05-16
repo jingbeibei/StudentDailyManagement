@@ -6,34 +6,72 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.home.NoticeDetailsActivity">
+
     <include layout="@layout/toolbar_mybar"></include>
+
     <TextView
         android:id="@+id/id_notice_title_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size" />
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        android:text="加载中.."
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/id_notice_content_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size" />
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/id_notice_releaseTime_text"
+        <TextView
+            android:id="@+id/id_notice_publisher_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+        <TextView
+            android:id="@+id/id_notice_releaseTime_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size" />
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/id_notice_publisher_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="内容：" />
+
+        <TextView
+            android:id="@+id/id_notice_content_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:background="@drawable/textview_border"
+            android:lines="4"
+            android:text="老师要收作业了"
+            android:textSize="@dimen/text_size" />
+    </LinearLayout>
+
+
     <Button
         android:id="@+id/id_delect_notice_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/login"
         android:text="删除"
-        />
+        android:textColor="@color/red"
+        android:visibility="gone" />
 </LinearLayout>

@@ -184,10 +184,13 @@ public class PublishSignActivity extends AppCompatActivity {
                 String endTime = endTimeTV.getText().toString();
                 String startTime = startTimeTV.getText().toString();
                 String visibleClass = selectClassTV.getText().toString();
+                String place = myPlaceTV.getText().toString();
                 if (title.equals("") || endTime.equals("") || startTime.equals("") || visibleClass.equals("")) {
                     ToastUtils.toast(PublishSignActivity.this, "信息不完整，请检查");
-                }
-                {
+                    if (place == null || place.equals("")) {
+                        ToastUtils.toast(PublishSignActivity.this, "请稍等，位置信息正在获取中..");
+                    }
+                } else {
                     SignType signType = new SignType();
                     signType.setPublisher(teacher);
                     signType.setEndTime(endTime);

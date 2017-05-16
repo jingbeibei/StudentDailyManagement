@@ -101,6 +101,7 @@ public class SignListTeacherActivity extends AppCompatActivity implements MyItem
         query.include("visibleClass");
         // 按时间降序查询
         query.order("-createdAt");
+        query.include("publisher");
         query.addWhereEqualTo("publisher",new BmobPointer(teacher));
         // 如果是加载更多
         if (actionType == STATE_MORE) {
@@ -169,7 +170,7 @@ public class SignListTeacherActivity extends AppCompatActivity implements MyItem
 
     @Override
     public void onItemClick(View view, int postion) {
-        Toast.makeText(this, "我是第" + postion + "项", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "我是第" + postion + "项", Toast.LENGTH_SHORT).show();
         Intent intent=new Intent(SignListTeacherActivity.this,SignTeacherDetailsActivity.class);
         intent.putExtra("signType",signTypes.get(postion-1));
         intent.putExtra("teacher",teacher);

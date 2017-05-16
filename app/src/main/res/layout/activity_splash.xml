@@ -4,11 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@mipmap/flash"
     tools:context="com.nuc.jingbeibei.studentdailymanagement.ui.SplashActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       android:gravity="center"
-        android:text="闪图" />
 </LinearLayout>

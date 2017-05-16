@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nuc.jingbeibei.studentdailymanagement.R;
+import com.nuc.jingbeibei.studentdailymanagement.app.ActivityCollector;
 import com.nuc.jingbeibei.studentdailymanagement.utils.IntentUtils;
 
 import cn.bmob.v3.Bmob;
@@ -26,7 +27,7 @@ public class LoginAndRegisterActivity extends AppCompatActivity {
         idTeacherText = (TextView) findViewById(R.id.id_teacher_text);
         pref = getSharedPreferences("data", MODE_PRIVATE);
         objectId = pref.getString("objectid", "");
-
+        ActivityCollector.addActivity(this);
         editor = pref.edit();
 
         // 初始化 Bmob SDK
@@ -49,6 +50,7 @@ public class LoginAndRegisterActivity extends AppCompatActivity {
                 editor.commit();
 
                 IntentUtils.doIntent(LoginAndRegisterActivity.this, LoginActivity.class);
+
             }
         });
         idTeacherText.setOnClickListener(new View.OnClickListener() {

@@ -104,8 +104,7 @@ public class SignListStudentActivity extends AppCompatActivity implements MyItem
     private void getData(int page, final int actionType) {//查询出与此学生相关的签到信息
         String[] ids={student.getStudentClass().getObjectId()};
         BmobQuery<SignType> query = new BmobQuery<>();
-        query.include("publisher");
-        query.include("visibleClass");
+        query.include("publisher,visibleClass");
         // 按时间降序查询
         query.order("-createdAt");
         query.addWhereContainsAll("visibleClass", Arrays.asList(ids));

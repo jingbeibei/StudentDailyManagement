@@ -140,6 +140,7 @@ public class NoticeActivity extends AppCompatActivity implements MyItemClickList
         BmobQuery<Notice> query = new BmobQuery<>();
         // 按时间降序查询
         query.order("-createdAt");
+        query.include("publisher");
         query.addWhereEqualTo("publisher",new BmobPointer(bmobObject));
         // 如果是加载更多
         if (actionType == STATE_MORE) {

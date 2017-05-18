@@ -18,6 +18,15 @@ public class LeaveRecord extends BmobObject {//请假记录
     private String homeAddress;//家庭联系地址
     private String replyContent;//回复内容
     private String state;//假条状态{同意，拒绝，审批中}
+    private int isOver;//结束：1，未结束：0
+
+    public int getIsOver() {
+        return isOver;
+    }
+
+    public void setIsOver(int isOver) {
+        this.isOver = isOver;
+    }
 
     public String getReplyContent() {
         return replyContent;

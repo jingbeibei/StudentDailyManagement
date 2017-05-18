@@ -150,6 +150,7 @@ public class AskForLeaveActivity extends AppCompatActivity {
         leaveRecord.setHomeAddress(homeAddress);
         leaveRecord.setCounselorName(student.getStudentClass().getCounselor());
         leaveRecord.setState("审批中");
+        leaveRecord.setIsOver(0);
         leaveRecord.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {

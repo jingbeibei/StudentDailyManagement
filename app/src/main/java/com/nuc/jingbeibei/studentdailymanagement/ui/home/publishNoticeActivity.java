@@ -21,10 +21,13 @@ import com.nuc.jingbeibei.studentdailymanagement.utils.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobPushManager;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobPointer;
@@ -90,7 +93,7 @@ public class publishNoticeActivity extends AppCompatActivity {
         publishNoticeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = noticeTitleEdit.getText().toString();
+                final String title = noticeTitleEdit.getText().toString();
                 String content = noticeContentEdit.getText().toString();
                 if (title.equals("") || content.equals("")) {
                     ToastUtils.toast(publishNoticeActivity.this, "标题内容不能为空");
@@ -113,6 +116,7 @@ public class publishNoticeActivity extends AppCompatActivity {
                         @Override
                         public void done(String s, BmobException e) {
                             if (e == null) {
+                                pushNotice(title);
                                 finish();
                                 Log.i("bmob", "多对多关联添加成功");
                             } else {
@@ -213,4 +217,20 @@ public class publishNoticeActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("取消", null).show();
     }
+
+    private void pushNotice(String title){
+        int size=noticeClassList.size();
+        String[] array=new String[size];
+        for (int i=0;i<size;i++){
+            array[i]=noticeClassList.get(i).getClassNo();
+        }
+        BmobPushManager bmobPush = new BmobPushManager();
+        BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
+        query.addWhereEqualTo("flage", 1);
+        query.addWhereContainsAll("className", Arrays.asList(array));
+        bmobPush.setQuery(query);
+        bmobPush.pushMessage(title);
+
+    }
+
 }

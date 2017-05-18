@@ -20,10 +20,10 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class AskForLeaveDetailsActivity extends AppCompatActivity {
-    private TextView studentNameTV, startTimeTV, endTimeTv, counselorNameTV;
+    private TextView studentNameTV, startTimeTV, endTimeTv, counselorNameTV,isOverTV;
     private TextView leaveReasonTV, parentNameTV, parentTelephoneNoTV, homeAddressTV,stateTV;
     private EditText replayContentEdit;
-    private Button commitBtn;
+    private Button commitBtn,endButton;
     private RadioGroup redioGroup;
     private TextView BarTitle;
     private ImageView BackImage;
@@ -61,6 +61,8 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
         commitBtn = (Button) findViewById(R.id.id_leave_commit_button);
         redioGroup = (RadioGroup) findViewById(R.id.radioGroupID);
         stateTV= (TextView) findViewById(R.id.id_leave_state_text);
+        isOverTV= (TextView) findViewById(R.id.id_is_over_text);
+        endButton= (Button) findViewById(R.id.id_leave_end_button);
 
         studentNameTV.setText(leaveRecord.getStudent().getRealName());
         homeAddressTV.setText(leaveRecord.getHomeAddress());
@@ -74,7 +76,11 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
         if (leaveRecord.getReplyContent()!=null)
         replayContentEdit.setText(leaveRecord.getReplyContent());
         BarTitle.setText("请假详情");
-
+        if (leaveRecord.getIsOver()==1){
+            isOverTV.setText("已销假");
+        }else {
+            isOverTV.setText("未销假");
+        }
         BackImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +92,9 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
             replayContentEdit.setEnabled(true);
             redioGroup.setVisibility(View.VISIBLE);
             commitBtn.setVisibility(View.VISIBLE);
+        }
+        if (!isTeacher&&0==leaveRecord.getIsOver()&&leaveRecord.getState().equals("同意")){
+            endButton.setVisibility(View.VISIBLE);
         }
 
     }
@@ -106,11 +115,27 @@ public class AskForLeaveDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 leaveRecord.setReplyContent(replayContentEdit.getText().toString());
                 leaveRecord.setState(isPass);
+                leaveRecord.setIsOver(0);
                 leaveRecord.update(new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
                         if (e == null) {
                             ToastUtils.toast(AskForLeaveDetailsActivity.this, "审批完成");
+                            finish();
+                        }
+                    }
+                });
+            }
+        });
+        endButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                leaveRecord.setIsOver(1);
+                leaveRecord.update(new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if(e==null){
+                            ToastUtils.toast(AskForLeaveDetailsActivity.this, "销假成功！");
                             finish();
                         }
                     }

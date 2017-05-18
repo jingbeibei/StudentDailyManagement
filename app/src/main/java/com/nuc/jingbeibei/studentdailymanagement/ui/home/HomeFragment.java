@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nuc.jingbeibei.studentdailymanagement.R;
 import com.nuc.jingbeibei.studentdailymanagement.beans.BannerPic;
+import com.nuc.jingbeibei.studentdailymanagement.beans.MyBmobInstallation;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Student;
 import com.nuc.jingbeibei.studentdailymanagement.beans.Teacher;
 import com.nuc.jingbeibei.studentdailymanagement.ui.home.ImageSlideshow.ImageSlideshow;
@@ -32,10 +33,14 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.push.BmobPush;
+import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.Call;
 
 public class HomeFragment extends Fragment {
@@ -64,6 +69,10 @@ public class HomeFragment extends Fragment {
         } else {
             getStudentObject();
         }
+        // 使用推送服务时的初始化操作
+        BmobInstallation.getCurrentInstallation().save();
+        // 启动推送服务
+        BmobPush.startWork(getActivity());
 
     }
 
@@ -178,6 +187,7 @@ public class HomeFragment extends Fragment {
                 if (e == null) {
                     object = object1;
                     isCounselor = object1.getIsCounselor();
+                    updateInstallation();
                 } else {
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
                 }
@@ -194,7 +204,7 @@ public class HomeFragment extends Fragment {
             public void done(Student object1, BmobException e) {
                 if (e == null) {
                     object = object1;
-
+                    updateInstallation();
                 } else {
                     Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
                 }
@@ -265,4 +275,34 @@ public class HomeFragment extends Fragment {
         });
         imageSlideshow.commit();
     }
+   private void updateInstallation(){
+       BmobQuery<MyBmobInstallation> query = new BmobQuery<MyBmobInstallation>();
+       query.addWhereEqualTo("installationId", BmobInstallation.getInstallationId(getActivity()));
+       query.findObjects(new FindListener<MyBmobInstallation>() {
+           @Override
+           public void done(List<MyBmobInstallation> list, BmobException e) {
+               if (e==null){
+                   MyBmobInstallation mbi= list.get(0);
+                   if (isTeacher){
+                       mbi.setFloag(0);
+                   }else {
+                       mbi.setFloag(1);
+                       Student student= (Student) object;
+                       mbi.setClassName(student.getStudentClass().getClassNo());
+                   }
+                   mbi.update(new UpdateListener() {
+                       @Override
+                       public void done(BmobException e) {
+                           if (e==null){
+                               //更新成功
+                           }
+                       }
+                   });
+
+
+               }
+           }
+       });
+   }
+
 }

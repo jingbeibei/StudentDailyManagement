@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment {
         imageSlideshow = (ImageSlideshow) view.findViewById(R.id.is_gallery);
         imageUrlList = new ArrayList<>();
         titleList = new ArrayList<>();
-        OkHttpUtils.get().url("http://59.48.248.41:1020/iNUC/api/interface/GetPictureNews?").addParams("pageSize", "5").build()
+        OkHttpUtils.get().url("https://www.inuc.xin/api/interface/GetPictureNews?").addParams("pageSize", "5").build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {

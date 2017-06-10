@@ -56,7 +56,7 @@ public class NewsDetailedActivity extends AppCompatActivity {
 
 
 
-        OkHttpUtils.get().url("http://59.48.248.41:1020/iNUC/api/interface/GetNewsContent?")
+        OkHttpUtils.get().url("https://www.inuc.xin/api/interface/GetNewsContent?")
                 .addParams("id", newsId).build()
                 .execute(new StringCallback() {
                     @Override

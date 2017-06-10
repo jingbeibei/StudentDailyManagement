@@ -96,7 +96,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     //通过网络获取数据
     public void loadDate(int Index, int size) {
-        OkHttpUtils.get().url("http://59.48.248.41:1020/iNUC/api/interface/GetNews?").addParams("pageIndex", Index + "")
+        OkHttpUtils.get().url("https://www.inuc.xin/api/interface/GetNews?").addParams("pageIndex", Index + "")
                 .addParams("pageSize", size + "").build()
                 .execute(new StringCallback() {
                     @Override

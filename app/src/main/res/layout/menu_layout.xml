@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,7 +29,10 @@
                 android:layout_height="wrap_content"
                 android:text="公告" />
         </LinearLayout>
-
+<TextView
+    android:layout_width="1dp"
+    android:layout_height="match_parent"
+    android:background="@color/gray"/>
         <LinearLayout
             android:id="@+id/address_book_layout"
             android:layout_width="0dp"
@@ -45,7 +51,10 @@
                 android:layout_height="wrap_content"
                 android:text="通讯录" />
         </LinearLayout>
-
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray"/>
         <LinearLayout
             android:id="@+id/sign_layout"
             android:layout_width="0dp"
@@ -65,7 +74,10 @@
                 android:text="签到" />
         </LinearLayout>
     </LinearLayout>
-
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/gray"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -88,7 +100,10 @@
                 android:layout_height="wrap_content"
                 android:text="请销假" />
         </LinearLayout>
-
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray"/>
         <LinearLayout
             android:id="@+id/class_management_layout"
             android:layout_width="0dp"
@@ -107,7 +122,10 @@
                 android:layout_height="wrap_content"
                 android:text="上课班级管理" />
         </LinearLayout>
-
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray"/>
         <LinearLayout
             android:id="@+id/counselor_layout"
             android:layout_width="0dp"
@@ -127,4 +145,8 @@
                 android:text="我是辅导员" />
         </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
 </LinearLayout>
